@@ -39,6 +39,8 @@ public class ServiceReceiver extends BroadcastReceiver {
                 case TelephonyManager.CALL_STATE_RINGING:
                     System.out.println("PHONE RINGING.........TAKE IT.........");
                     //RingtoneManager.setActualDefaultRingtoneUri(MainActivity.this,RingtoneManager.TYPE_RINGTONE,mUri);
+					
+					// TODO Add custom ringtone which ring on incoming call
 
 
 
