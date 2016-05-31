@@ -41,6 +41,12 @@ public class ServiceReceiver extends BroadcastReceiver {
                     //RingtoneManager.setActualDefaultRingtoneUri(MainActivity.this,RingtoneManager.TYPE_RINGTONE,mUri);
 					
 					// TODO Add custom ringtone which ring on incoming call
+					/*
+					RingtoneManager.setActualDefaultRingtoneUri(
+                        getApplicationContext(),
+                        RingtoneManager.TYPE_RINGTONE,
+                        MyRingtoneURI );
+						*/
 
 
 
