@@ -14,10 +14,11 @@ import android.telephony.TelephonyManager;
  */
 public class ServiceReceiver extends BroadcastReceiver {
 
+    Context context;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        this.context = context;
         TelephonyManager telephony = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
         MyPhoneStateListener customPhoneListener = new MyPhoneStateListener();
 
@@ -41,12 +42,10 @@ public class ServiceReceiver extends BroadcastReceiver {
                     //RingtoneManager.setActualDefaultRingtoneUri(MainActivity.this,RingtoneManager.TYPE_RINGTONE,mUri);
 					
 					// TODO Add custom ringtone which ring on incoming call
-					/*
-					RingtoneManager.setActualDefaultRingtoneUri(
-                        getApplicationContext(),
+					RingtoneManager mgr = new RingtoneManager(context);
+					RingtoneManager.setActualDefaultRingtoneUri(context,
                         RingtoneManager.TYPE_RINGTONE,
-                        MyRingtoneURI );
-						*/
+                        mgr.getRingtoneUri(4));
 
 
 
