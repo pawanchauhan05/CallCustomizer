@@ -17,6 +17,11 @@ public class SlideContainerFragment extends Fragment {
     private static final String ARG_LAYOUT_RES_ID = "layoutResId";
     private int layoutResId;
 
+    /**
+     * to each time returns own instance
+     * @param layoutResId
+     * @return
+     */
     public static SlideContainerFragment newInstance(int layoutResId) {
         SlideContainerFragment slideContainerFragment = new SlideContainerFragment();
         Bundle args = new Bundle();
