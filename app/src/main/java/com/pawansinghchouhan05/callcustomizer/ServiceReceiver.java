@@ -7,6 +7,7 @@ import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 
 /**
@@ -28,32 +29,34 @@ public class ServiceReceiver extends BroadcastReceiver {
         String phone_number = bundle.getString("incoming_number");
         System.out.println("Phone Number : " + phone_number);
 
-
     }
 
     public class MyPhoneStateListener extends PhoneStateListener {
 
-        public void onCallStateChange(int state, String incomingNumber){
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
 
-            System.out.println("Icoming Number inside onCallStateChange : "  + incomingNumber);
+            Log.e("Incoming" , incomingNumber);
             switch(state){
                 case TelephonyManager.CALL_STATE_RINGING:
                     System.out.println("PHONE RINGING.........TAKE IT.........");
+                    Log.e("RINGING","PHONE RINGING.........TAKE IT.........");
                     //RingtoneManager.setActualDefaultRingtoneUri(MainActivity.this,RingtoneManager.TYPE_RINGTONE,mUri);
-					
-					// TODO Add custom ringtone which ring on incoming call
-					RingtoneManager mgr = new RingtoneManager(context);
-					RingtoneManager.setActualDefaultRingtoneUri(context,
-                        RingtoneManager.TYPE_RINGTONE,
-                        mgr.getRingtoneUri(4));
 
-
-
+                    // TODO Add custom ringtone which ring on incoming call
+                    RingtoneManager mgr = new RingtoneManager(context);
+                    RingtoneManager.setActualDefaultRingtoneUri(context,
+                            RingtoneManager.TYPE_RINGTONE,
+                            mgr.getRingtoneUri(4));
                     break;
+
                 case TelephonyManager.CALL_STATE_OFFHOOK:
                     System.out.println("CALL_STATE_OFFHOOK...........");
+                    Log.e("OFFHOOK","CALL_STATE_OFFHOOK...........");
                     break;
             }
+
+            //super.onCallStateChanged(state, incomingNumber);
         }
     }
 
