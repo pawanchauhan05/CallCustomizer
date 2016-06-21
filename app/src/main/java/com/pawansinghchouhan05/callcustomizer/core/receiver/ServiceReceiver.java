@@ -1,4 +1,4 @@
-package com.pawansinghchouhan05.callcustomizer;
+package com.pawansinghchouhan05.callcustomizer.core.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

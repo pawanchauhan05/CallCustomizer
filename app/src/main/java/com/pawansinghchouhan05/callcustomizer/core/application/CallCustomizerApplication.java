@@ -1,4 +1,4 @@
-package com.pawansinghchouhan05.callcustomizer.core;
+package com.pawansinghchouhan05.callcustomizer.core.application;
 
 import android.app.Application;
 
