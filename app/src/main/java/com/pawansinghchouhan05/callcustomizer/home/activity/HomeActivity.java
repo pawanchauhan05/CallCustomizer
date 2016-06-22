@@ -5,12 +5,14 @@ import android.os.Bundle;
 
 import com.pawansinghchouhan05.callcustomizer.R;
 
+import org.androidannotations.annotations.EActivity;
 
+@EActivity(R.layout.activity_home)
 public class HomeActivity extends AppCompatActivity {
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-    }
+    }*/
 }

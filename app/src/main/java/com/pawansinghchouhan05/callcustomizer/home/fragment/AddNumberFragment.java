@@ -1,4 +1,4 @@
-package com.pawansinghchouhan05.callcustomizer.registrationOrLogin.fragment;
+package com.pawansinghchouhan05.callcustomizer.home.fragment;
 
 
 import android.os.Bundle;
@@ -11,8 +11,9 @@ import com.pawansinghchouhan05.callcustomizer.R;
 
 import org.androidannotations.annotations.EFragment;
 
-@EFragment(R.layout.fragment_registration)
-public class RegistrationFragment extends Fragment {
+@EFragment(R.layout.fragment_add_number)
+public class AddNumberFragment extends Fragment {
+
 
 
 }

@@ -72,10 +72,10 @@
             android:id="@+id/layoutButtons">
 
             <Button
+                android:id="@+id/buttonRegisterUser"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Register"
-                android:onClick="registerUser"
                 android:background="#f1f1f1"
                 android:layout_weight="0.5"
                 />
