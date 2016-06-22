@@ -26,7 +26,8 @@
         </receiver>
 
         <activity android:name=".introScreen.activity.IntroScreenActivity" />
-        <activity android:name=".registrationOrLogin.activity.RegistrationOrLoginActivity_"></activity>
+        <activity android:name=".registrationOrLogin.activity.RegistrationOrLoginActivity_" />
+        <activity android:name=".home.activity.HomeActivity"></activity>
     </application>
 
 </manifest>
