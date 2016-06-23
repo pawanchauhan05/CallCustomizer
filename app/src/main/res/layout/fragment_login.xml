@@ -46,7 +46,8 @@
             android:layout_height="wrap_content" />
 
         <!-- Login button -->
-        <Button android:id="@+id/loginButton"
+        <Button
+            android:id="@+id/loginButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
@@ -55,7 +56,8 @@
             android:layout_gravity="center"
             android:text="Login"/>
 
-        <TextView android:layout_width="fill_parent"
+        <TextView
+            android:layout_width="fill_parent"
             android:id="@+id/textViewForgotPassword"
             android:layout_height="wrap_content"
             android:textColor="#828282"
