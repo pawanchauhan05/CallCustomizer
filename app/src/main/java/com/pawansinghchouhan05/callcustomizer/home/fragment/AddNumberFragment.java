@@ -31,8 +31,6 @@ public class AddNumberFragment extends Fragment {
         startActivityForResult(intent, REQUEST_CODE);
     }
 
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == REQUEST_CODE) {
