@@ -13,7 +13,8 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.pawansinghchouhan05.callcustomizer.R;
-import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity_;
+import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity;
+//import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity_;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -41,7 +42,7 @@ public class LoginFragment extends Fragment {
 
     @Click(R.id.loginButton)
     void login() {
-        Intent intent = new Intent(getContext(), HomeActivity_.class);
+        Intent intent = new Intent(getContext(), HomeActivity.class);
         startActivity(intent);
     }
 }
