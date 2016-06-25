@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "126415424269",
+    "firebase_url": "https://callcustomizer.firebaseio.com",
+    "project_id": "callcustomizer",
+    "storage_bucket": "callcustomizer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126415424269:android:e81b828f673d4c41",
+        "android_client_info": {
+          "package_name": "com.pawansinghchouhan05.callcustomizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126415424269-d3pa8ffirfunflm2uvauk2m8ljj0kk3d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pawansinghchouhan05.callcustomizer",
+            "certificate_hash": "625E087DE0BAF999106B4B949652D5AE22AE8647"
+          }
+        },
+        {
+          "client_id": "126415424269-o3379118jqd7769vmkbh9bqpfdfnqkl8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKKEyAV_clVVgSfB9TrdMwv_YZOXKt4yI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126415424269-o3379118jqd7769vmkbh9bqpfdfnqkl8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

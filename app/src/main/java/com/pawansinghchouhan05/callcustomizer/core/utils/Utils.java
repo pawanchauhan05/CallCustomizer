@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.UUID;
+
 /**
  * Created by Fitterfox-Pawan on 6/21/2016.
  */
@@ -19,5 +21,6 @@ public class Utils {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(key, value);
         editor.commit();
+        UUID.randomUUID().toString();
     }
 }
