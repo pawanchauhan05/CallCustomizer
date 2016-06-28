@@ -1,27 +1,35 @@
 package com.pawansinghchouhan05.callcustomizer.home.fragment;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.pawansinghchouhan05.callcustomizer.R;
+import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @EFragment(R.layout.fragment_add_number)
 public class AddNumberFragment extends Fragment {
 
     private static final int REQUEST_CODE = 1;
+    private List<CustomNumber> customNumberList = new ArrayList<>();
+
+    @ViewById(R.id.editTextName)
+    EditText editTextName;
+
+    @ViewById(R.id.editTextNumber)
+    EditText editTextNumber;
 
     @Click(R.id.addNumber)
     void addNumber() {
@@ -53,4 +61,12 @@ public class AddNumberFragment extends Fragment {
             }
         }
     }
+
+    @Click(R.id.buttonAdd)
+    void addNumberManually() {
+        //customNumbers.add(new CustomNumber(editTextName.getText().toString().trim(), Long.parseLong(editTextNumber.getText().toString().trim())));
+        //Utils.storeCustomNumberListToFCMDatabase(customNumberList);
+        // TODO add success msg here
+    }
+
 }

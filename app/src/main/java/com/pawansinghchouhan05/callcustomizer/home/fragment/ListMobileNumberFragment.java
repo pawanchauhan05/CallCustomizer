@@ -5,13 +5,21 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.pawansinghchouhan05.callcustomizer.R;
+import com.pawansinghchouhan05.callcustomizer.core.application.CallCustomizerApplication;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.adapters.MobileNumberAdapter;
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
+import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumberList;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -23,7 +31,7 @@ import java.util.List;
 @EFragment(R.layout.fragment_list_mobile_number)
 public class ListMobileNumberFragment extends Fragment {
 
-    private List<CustomNumber> customNumberList = new ArrayList<>();
+    private CustomNumberList customNumberList;
     private MobileNumberAdapter mobileNumberAdapter;
 
     @ViewById(R.id.recycler_view)
@@ -31,16 +39,21 @@ public class ListMobileNumberFragment extends Fragment {
 
     @AfterViews()
     void init() {
-        mobileNumberAdapter = new MobileNumberAdapter(customNumberList);
+
+        customNumberList = Utils.retriveCustomNumberListToFCMDatabase();
+        Log.e("List",customNumberList.toString());
+
+        mobileNumberAdapter = new MobileNumberAdapter(customNumberList.getCustomNumberList());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mobileNumberAdapter);
-        customNumberList.add(new CustomNumber("Pawan", 12345500));
+        /*customNumberList.add(new CustomNumber("Pawan", 12345500));
         customNumberList.add(new CustomNumber("Divya", 12345500));
         customNumberList.add(new CustomNumber("Ninja", 12345500));
         customNumberList.add(new CustomNumber("Hattori", 12345500));
-        customNumberList.add(new CustomNumber("honey", 12345500));
-
+        customNumberList.add(new CustomNumber("honey", 12345500));*/
         mobileNumberAdapter.notifyDataSetChanged();
+        Log.e("List",Utils.customNumberList.toString());
     }
+
 
 }
