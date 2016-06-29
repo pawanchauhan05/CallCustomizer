@@ -17,7 +17,7 @@ public class PopUpMsg {
     private PopUpMsg() {
     }
 
-    private void generateToastMsg(Context context, String msg) {
+    public void generateToastMsg(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 

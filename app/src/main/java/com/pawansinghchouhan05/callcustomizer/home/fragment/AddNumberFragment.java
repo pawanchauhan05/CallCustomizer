@@ -67,7 +67,7 @@ public class AddNumberFragment extends Fragment {
     void addNumberManually() {
         CustomNumber customNumber = new CustomNumber(editTextName.getText().toString().trim(), Long.parseLong(editTextNumber.getText().toString().trim()));
         //customNumbers.add(new CustomNumber(editTextName.getText().toString().trim(), Long.parseLong(editTextNumber.getText().toString().trim())));
-        Utils.storeCustomNumberListToFCMDatabase(customNumber);
+        Utils.storeCustomNumberListToFCMDatabase(customNumber, getContext());
         // TODO add success msg here
     }
 
