@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.pawansinghchouhan05.callcustomizer.R;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
 
 import org.androidannotations.annotations.Click;
@@ -64,8 +65,9 @@ public class AddNumberFragment extends Fragment {
 
     @Click(R.id.buttonAdd)
     void addNumberManually() {
+        CustomNumber customNumber = new CustomNumber(editTextName.getText().toString().trim(), Long.parseLong(editTextNumber.getText().toString().trim()));
         //customNumbers.add(new CustomNumber(editTextName.getText().toString().trim(), Long.parseLong(editTextNumber.getText().toString().trim())));
-        //Utils.storeCustomNumberListToFCMDatabase(customNumberList);
+        Utils.storeCustomNumberListToFCMDatabase(customNumber);
         // TODO add success msg here
     }
 

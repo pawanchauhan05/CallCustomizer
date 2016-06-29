@@ -39,20 +39,11 @@ public class ListMobileNumberFragment extends Fragment {
 
     @AfterViews()
     void init() {
-
         customNumberList = Utils.retriveCustomNumberListToFCMDatabase();
-        Log.e("List",customNumberList.toString());
-
         mobileNumberAdapter = new MobileNumberAdapter(customNumberList.getCustomNumberList());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mobileNumberAdapter);
-        /*customNumberList.add(new CustomNumber("Pawan", 12345500));
-        customNumberList.add(new CustomNumber("Divya", 12345500));
-        customNumberList.add(new CustomNumber("Ninja", 12345500));
-        customNumberList.add(new CustomNumber("Hattori", 12345500));
-        customNumberList.add(new CustomNumber("honey", 12345500));*/
         mobileNumberAdapter.notifyDataSetChanged();
-        Log.e("List",Utils.customNumberList.toString());
     }
 
 

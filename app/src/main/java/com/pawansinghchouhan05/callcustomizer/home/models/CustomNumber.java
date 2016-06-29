@@ -1,5 +1,7 @@
 package com.pawansinghchouhan05.callcustomizer.home.models;
 
+import java.util.Objects;
+
 /**
  * Created by Fitterfox-Pawan on 6/23/2016.
  */
@@ -39,7 +41,7 @@ public class CustomNumber {
                 '}';
     }
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -49,12 +51,21 @@ public class CustomNumber {
         if (mobileNumber != that.mobileNumber) return false;
         return name != null ? name.equals(that.name) : that.name == null;
 
+    }*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CustomNumber that = (CustomNumber) o;
+
+        return mobileNumber == that.mobileNumber;
+
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (int) (mobileNumber ^ (mobileNumber >>> 32));
-        return result;
+        return (int) (mobileNumber ^ (mobileNumber >>> 32));
     }
 }

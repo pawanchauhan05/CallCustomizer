@@ -5,6 +5,7 @@ import android.app.Application;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
+import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumberList;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +26,7 @@ public class CallCustomizerApplication extends Application {
 
     public static DatabaseReference databaseReference;
     public static Retrofit retrofit;
+    public static CustomNumberList numberList = new CustomNumberList();
 
     @Override
     public void onCreate() {
@@ -60,5 +62,7 @@ public class CallCustomizerApplication extends Application {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
+
+        numberList = Utils.retriveCustomNumberListToFCMDatabase();
     }
 }

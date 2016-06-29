@@ -40,6 +40,12 @@ public class Utils {
     public static void storeCustomNumberListToFCMDatabase(CustomNumber customNumber) {
         //String key = UUID.randomUUID().toString();
         String key = "05dc32b4-78d6-42ba-965f-ce3b8e719784";
+        if(customNumberList.getCustomNumberList().contains(customNumber)) {
+            Log.e("if","exist");
+        } else {
+            Log.e("else","else");
+            customNumberList.getCustomNumberList().add(customNumber);
+        }
         CallCustomizerApplication.databaseReference.child(Constant.NUMBERS).child(key).setValue(customNumberList);
     }
 
