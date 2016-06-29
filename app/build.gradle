@@ -51,6 +51,10 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.google.firebase:firebase-messaging:9.0.2'
     compile 'com.google.firebase:firebase-database:9.0.2'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2' // Retrofit
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2' // GSON
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2' // RxAndroid
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
