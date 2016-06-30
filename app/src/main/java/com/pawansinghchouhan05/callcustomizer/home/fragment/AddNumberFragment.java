@@ -58,6 +58,8 @@ public class AddNumberFragment extends Fragment {
                 String name = cursor.getString(nameColumnIndex);
 
                 Log.e("number", "ZZZ number : " + number + " , name : " + name);
+                CustomNumber customNumber = new CustomNumber(name, Long.parseLong(number));
+                Utils.storeCustomNumberListToFCMDatabase(customNumber, getContext());
 
             }
         }
@@ -66,9 +68,7 @@ public class AddNumberFragment extends Fragment {
     @Click(R.id.buttonAdd)
     void addNumberManually() {
         CustomNumber customNumber = new CustomNumber(editTextName.getText().toString().trim(), Long.parseLong(editTextNumber.getText().toString().trim()));
-        //customNumbers.add(new CustomNumber(editTextName.getText().toString().trim(), Long.parseLong(editTextNumber.getText().toString().trim())));
         Utils.storeCustomNumberListToFCMDatabase(customNumber, getContext());
-        // TODO add success msg here
     }
 
 }
