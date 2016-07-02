@@ -14,6 +14,7 @@ public class CustomNumberList {
     }
 
     public CustomNumberList() {
+        this.customNumberList = new ArrayList<>();
     }
 
     public List<CustomNumber> getCustomNumberList() {

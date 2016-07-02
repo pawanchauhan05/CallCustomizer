@@ -21,7 +21,12 @@ import java.util.UUID;
  */
 public class Utils {
 
-    public static CustomNumberList customNumberList = new CustomNumberList();
+    public static CustomNumberList customNumberList ;
+
+    static  {
+        customNumberList = new CustomNumberList();
+        Log.e("init","static");
+    }
 
     public static String readPreferences(Context context, String key, String defaultValue) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -37,15 +42,23 @@ public class Utils {
     }
 
 
-    public static void storeCustomNumberListToFCMDatabase(CustomNumber customNumber, Context context) {
+    public static void storeCustomNumberListToFCMDatabase(CustomNumber customNumber, Context context)  {
         //String key = UUID.randomUUID().toString();
+
         String key = "05dc32b4-78d6-42ba-965f-ce3b8e719784";
-        if(customNumberList.getCustomNumberList().contains(customNumber)) {
-            PopUpMsg.getInstance().generateToastMsg(context, "Number already exist!");
+        if(customNumberList != null) {
+            if(customNumberList.getCustomNumberList().contains(customNumber)) {
+                PopUpMsg.getInstance().generateToastMsg(context, "Number already exist!");
+            } else {
+                PopUpMsg.getInstance().generateToastMsg(context, "Number successfully added!");
+                customNumberList.getCustomNumberList().add(customNumber);
+            }
         } else {
-            PopUpMsg.getInstance().generateToastMsg(context, "Number successfully added!");
+            customNumberList = new CustomNumberList();
             customNumberList.getCustomNumberList().add(customNumber);
+            PopUpMsg.getInstance().generateToastMsg(context, "Number successfully added!");
         }
+
         CallCustomizerApplication.databaseReference.child(Constant.NUMBERS).child(key).setValue(customNumberList);
     }
 
@@ -55,7 +68,7 @@ public class Utils {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 customNumberList = dataSnapshot.getValue(CustomNumberList.class);
-                Log.e("static",customNumberList.toString());
+                //Log.e("static",customNumberList.toString());
             }
 
             @Override

@@ -16,6 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.pawansinghchouhan05.callcustomizer.R;
 import com.pawansinghchouhan05.callcustomizer.core.application.CallCustomizerApplication;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
+import com.pawansinghchouhan05.callcustomizer.core.utils.PopUpMsg;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.adapters.MobileNumberAdapter;
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
@@ -31,7 +32,7 @@ import java.util.List;
 @EFragment(R.layout.fragment_list_mobile_number)
 public class ListMobileNumberFragment extends Fragment {
 
-    private CustomNumberList customNumberList;
+    private CustomNumberList customNumberList = new CustomNumberList();
     private MobileNumberAdapter mobileNumberAdapter;
 
     @ViewById(R.id.recycler_view)
@@ -40,10 +41,16 @@ public class ListMobileNumberFragment extends Fragment {
     @AfterViews()
     void init() {
         customNumberList = Utils.retriveCustomNumberListToFCMDatabase();
-        mobileNumberAdapter = new MobileNumberAdapter(customNumberList.getCustomNumberList());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(mobileNumberAdapter);
-        mobileNumberAdapter.notifyDataSetChanged();
+        try {
+            mobileNumberAdapter = new MobileNumberAdapter(customNumberList.getCustomNumberList());
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setAdapter(mobileNumberAdapter);
+            mobileNumberAdapter.notifyDataSetChanged();
+        } catch (NullPointerException e) {
+            PopUpMsg.getInstance().generateToastMsg(getContext(), "Please first add Number!");
+        }
+
+
     }
 
 
