@@ -56,9 +56,10 @@ public class AddNumberFragment extends Fragment {
 
                 int nameColumnIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
                 String name = cursor.getString(nameColumnIndex);
-
+                number = number.replace(" ","");
+                number = number.replace("+91","");
                 Log.e("number", "ZZZ number : " + number + " , name : " + name);
-                CustomNumber customNumber = new CustomNumber(name, Long.parseLong(number));
+                CustomNumber customNumber = new CustomNumber(name, Long.parseLong(number.trim()));
                 Utils.storeCustomNumberListToFCMDatabase(customNumber, getContext());
 
             }

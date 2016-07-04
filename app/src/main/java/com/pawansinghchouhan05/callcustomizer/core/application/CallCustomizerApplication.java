@@ -26,7 +26,6 @@ public class CallCustomizerApplication extends Application {
 
     public static DatabaseReference databaseReference;
     public static Retrofit retrofit;
-    public static CustomNumberList numberList = new CustomNumberList();
 
     @Override
     public void onCreate() {
@@ -63,6 +62,5 @@ public class CallCustomizerApplication extends Application {
                 .client(okHttpClient)
                 .build();
 
-        numberList = Utils.retriveCustomNumberListToFCMDatabase();
     }
 }
