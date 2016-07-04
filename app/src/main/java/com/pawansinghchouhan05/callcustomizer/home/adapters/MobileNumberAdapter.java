@@ -1,6 +1,9 @@
 package com.pawansinghchouhan05.callcustomizer.home.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import com.pawansinghchouhan05.callcustomizer.core.application.CallCustomizerApp
 import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
 import com.pawansinghchouhan05.callcustomizer.core.utils.PopUpMsg;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
+import com.pawansinghchouhan05.callcustomizer.home.fragment.ListMobileNumberFragment;
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumberList;
 
@@ -28,6 +32,7 @@ public class MobileNumberAdapter extends RecyclerView.Adapter<MobileNumberAdapte
     private List<CustomNumber> customNumberList;
     private static MyClickListener myClickListener;
     private Context context;
+    private ListMobileNumberFragment listMobileNumberFragment;
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -50,9 +55,10 @@ public class MobileNumberAdapter extends RecyclerView.Adapter<MobileNumberAdapte
         }
     }
 
-    public MobileNumberAdapter(List<CustomNumber> customNumberList, Context context) {
+    public MobileNumberAdapter(List<CustomNumber> customNumberList, Context context, ListMobileNumberFragment listMobileNumberFragment) {
         this.customNumberList = customNumberList;
         this.context = context;
+        this.listMobileNumberFragment = listMobileNumberFragment;
     }
 
     @Override
@@ -77,6 +83,15 @@ public class MobileNumberAdapter extends RecyclerView.Adapter<MobileNumberAdapte
                 CallCustomizerApplication.databaseReference.child(Constant.NUMBERS).child("05dc32b4-78d6-42ba-965f-ce3b8e719784").setValue(numberList);
                 notifyDataSetChanged();
                 PopUpMsg.getInstance().generateToastMsg(context, "Number Deleted Successfully!");
+            }
+        });
+
+        holder.imageViewEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constant.CUSTOM_NUMBER_BUNDLE,customNumberList.get(position));
+                listMobileNumberFragment.moveToAddNuberFragment(bundle);
             }
         });
     }

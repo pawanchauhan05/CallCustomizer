@@ -4,15 +4,18 @@ package com.pawansinghchouhan05.callcustomizer.home.fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.EditText;
 
 import com.pawansinghchouhan05.callcustomizer.R;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -38,6 +41,16 @@ public class AddNumberFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_PICK, uri);
         intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
         startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @AfterViews
+    void init() {
+        Bundle bundle = new Bundle();
+        CustomNumber customNumber = (CustomNumber) bundle.getSerializable(Constant.CUSTOM_NUMBER_BUNDLE);
+        if(customNumber != null) {
+            editTextName.setText(customNumber.getName());
+            editTextNumber.setText(customNumber.getMobileNumber()+"");
+        }
     }
 
     @Override

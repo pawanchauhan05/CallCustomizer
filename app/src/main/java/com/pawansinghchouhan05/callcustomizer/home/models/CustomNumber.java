@@ -1,11 +1,12 @@
 package com.pawansinghchouhan05.callcustomizer.home.models;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Created by Fitterfox-Pawan on 6/23/2016.
  */
-public class CustomNumber {
+public class CustomNumber implements Serializable {
     private String name;
     private long mobileNumber;
 

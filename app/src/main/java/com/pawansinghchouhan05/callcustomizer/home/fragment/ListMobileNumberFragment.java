@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Movie;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -47,7 +48,7 @@ public class ListMobileNumberFragment extends Fragment {
     void init() {
         customNumberList = Utils.retriveCustomNumberListToFCMDatabase();
         try {
-            mobileNumberAdapter = new MobileNumberAdapter(customNumberList.getCustomNumberList(), getContext());
+            mobileNumberAdapter = new MobileNumberAdapter(customNumberList.getCustomNumberList(), getContext(), this);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setAdapter(mobileNumberAdapter);
             mobileNumberAdapter.notifyDataSetChanged();
@@ -56,63 +57,8 @@ public class ListMobileNumberFragment extends Fragment {
             PopUpMsg.getInstance().generateToastMsg(getContext(), "Please first add Number!");
         }
 
-        /*recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                CustomNumber customNumber = customNumberList.getCustomNumberList().get(position);
-                Toast.makeText(getContext(), customNumber.getName() + " is selected!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));*/
     }
 
-    /*public interface ClickListener {
-        void onClick(View view, int position);
-        void onLongClick(View view, int position);
-    }*/
-
-    /*public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
-
-        private GestureDetector gestureDetector;
-        private ClickListener clickListener;
-
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
-            this.clickListener = clickListener;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                    if (child != null && clickListener != null) {
-                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
-                    }
-                }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
-    }*/
 
     @Override
     public void onResume() {
@@ -124,5 +70,14 @@ public class ListMobileNumberFragment extends Fragment {
             }
         });
 
+    }
+
+    public void moveToAddNuberFragment(Bundle bundle) {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        AddNumberFragment_ addNumberFragment = new AddNumberFragment_();
+        addNumberFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.container, addNumberFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

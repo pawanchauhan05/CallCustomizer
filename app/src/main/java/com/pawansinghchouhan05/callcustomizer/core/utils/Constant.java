@@ -6,4 +6,17 @@ package com.pawansinghchouhan05.callcustomizer.core.utils;
 public class Constant {
     public static final String USERS = "Users";
     public static final String NUMBERS = "Numbers";
+
+
+
+
+
+
+
+
+
+    public static final String CUSTOM_NUMBER_BUNDLE = "CustomNumber";
+
+
+
 }
