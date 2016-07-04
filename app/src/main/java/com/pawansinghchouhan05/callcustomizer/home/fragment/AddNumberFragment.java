@@ -46,8 +46,12 @@ public class AddNumberFragment extends Fragment {
 
     @AfterViews
     void init() {
-
-        CustomNumber customNumber = (CustomNumber) getArguments().getParcelable(Constant.CUSTOM_NUMBER_BUNDLE);
+        CustomNumber customNumber = null;
+        try {
+            customNumber = (CustomNumber) getArguments().getParcelable(Constant.CUSTOM_NUMBER_BUNDLE);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         if(customNumber != null) {
             editTextName.setText(customNumber.getName());
             editTextNumber.setText(customNumber.getMobileNumber()+"");
