@@ -61,6 +61,6 @@ public class CallCustomizerApplication extends Application {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
-
+        Utils.retriveCustomNumberListToFCMDatabase();
     }
 }

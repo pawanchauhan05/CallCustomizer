@@ -90,8 +90,8 @@ public class MobileNumberAdapter extends RecyclerView.Adapter<MobileNumberAdapte
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Constant.CUSTOM_NUMBER_BUNDLE,customNumberList.get(position));
-                listMobileNumberFragment.moveToAddNuberFragment(bundle);
+                bundle.putParcelable(Constant.CUSTOM_NUMBER_BUNDLE,customNumberList.get(position));
+                listMobileNumberFragment.moveToAddNumberFragment(bundle);
             }
         });
     }

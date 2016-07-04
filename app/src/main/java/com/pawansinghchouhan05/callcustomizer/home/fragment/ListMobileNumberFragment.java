@@ -72,7 +72,7 @@ public class ListMobileNumberFragment extends Fragment {
 
     }
 
-    public void moveToAddNuberFragment(Bundle bundle) {
+    public void moveToAddNumberFragment(Bundle bundle) {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         AddNumberFragment_ addNumberFragment = new AddNumberFragment_();
         addNumberFragment.setArguments(bundle);

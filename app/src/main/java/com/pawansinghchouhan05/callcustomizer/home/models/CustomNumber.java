@@ -1,12 +1,15 @@
 package com.pawansinghchouhan05.callcustomizer.home.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Created by Fitterfox-Pawan on 6/23/2016.
  */
-public class CustomNumber implements Serializable {
+public class CustomNumber implements Parcelable {
     private String name;
     private long mobileNumber;
 
@@ -69,4 +72,32 @@ public class CustomNumber implements Serializable {
     public int hashCode() {
         return (int) (mobileNumber ^ (mobileNumber >>> 32));
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeLong(this.mobileNumber);
+    }
+
+    protected CustomNumber(Parcel in) {
+        this.name = in.readString();
+        this.mobileNumber = in.readLong();
+    }
+
+    public static final Parcelable.Creator<CustomNumber> CREATOR = new Parcelable.Creator<CustomNumber>() {
+        @Override
+        public CustomNumber createFromParcel(Parcel source) {
+            return new CustomNumber(source);
+        }
+
+        @Override
+        public CustomNumber[] newArray(int size) {
+            return new CustomNumber[size];
+        }
+    };
 }

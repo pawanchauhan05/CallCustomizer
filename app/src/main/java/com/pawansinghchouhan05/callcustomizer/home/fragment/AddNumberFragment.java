@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.EditText;
@@ -45,8 +46,8 @@ public class AddNumberFragment extends Fragment {
 
     @AfterViews
     void init() {
-        Bundle bundle = new Bundle();
-        CustomNumber customNumber = (CustomNumber) bundle.getSerializable(Constant.CUSTOM_NUMBER_BUNDLE);
+
+        CustomNumber customNumber = (CustomNumber) getArguments().getParcelable(Constant.CUSTOM_NUMBER_BUNDLE);
         if(customNumber != null) {
             editTextName.setText(customNumber.getName());
             editTextNumber.setText(customNumber.getMobileNumber()+"");
