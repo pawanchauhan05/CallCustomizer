@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="faq_question_array">
+        <item>How do I get the most out of Fitterfox?</item>
+        <item>Am I fit enough to exercise?</item>
+        <item>How is my workout plan designed?</item>
+        <item>How quickly will I see results?</item>
+        <item>What do the strength, stamina and flexibility indices mean?</item>
+    </string-array>
+    <string-array name="faq_answer_array">
+        <item>Fitterfox is designed to get you into the habit of working out regularly. It is specially useful for people who cannot afford to spend 1-1.5 hours of the day going to a gym. We design 10-15 minute workout circuits which require absolutely no equipment and can be done from the comfort of your home. To get the most out of Fitterfox, we expect you to exercise atleast 4-5 times a week and give us feedback after every workout so that we can modify your exercises accordingly.</item>
+        <item>We try our best to design the most appropriate and safe workouts for you. However, if you have any medical conditions or injuries we suggest that you get a medical check-up and a clearance from your doctor before you start exercising with us. We also urge all men above 40 and women above 50 to get a clearance from their doctor before they start</item>
+        <item>All your workouts are designed by a K11 certified fitness trainer. Initially, workouts are based on your age, sex, BMI, fitness levels and goals. However, over time more weight is given to post workout feedback and the workout plan is modified accordingly. The workouts are scientifically designed and usually start with warm up and dynamic stretching before graduating to more rigorous exercises. The workout plans are designed so that you exercise your entire body every week.</item>
+        <item>For those looking to lose weight – dedicated users successfully lose 2.5-3 kgs per month by following our workout schedule. For those looking to just stay fit - you will be sure to see gains in strength, stamina and flexibility – the transformation would be visible as you would be able to complete tougher workouts with greater ease. If you want to lose weight faster or have different fitness goals, we suggest that you talk to one of our trainers for more guidance.</item>
+        <item>Strength referes to musculoskeletal strength and endurance, stamina refers to cardiovascular endurance and flexibility referes to the range of motion around joints. The indices are created by Fitterfox to help you keep a track of your progress and also ensure that you see balanced development as you keep exercising with us. Every workout has a difficulty level associated with it and successfully completing it increases your strength, stamina and flexibility score. Different workouts affect the indices differently. For instance, a “lower body” workout will add more to strength and a cardio workout will add more to stamina. Significant change in these indices can be seen after a month of regular workouts.</item>
+    </string-array>
+</resources>

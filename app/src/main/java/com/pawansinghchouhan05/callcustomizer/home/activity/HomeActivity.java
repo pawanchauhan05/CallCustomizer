@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import com.pawansinghchouhan05.callcustomizer.R;
 import com.pawansinghchouhan05.callcustomizer.home.fragment.AddNumberFragment_;
+import com.pawansinghchouhan05.callcustomizer.home.fragment.FaqFragment_;
 import com.pawansinghchouhan05.callcustomizer.home.fragment.ListMobileNumberFragment_;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.fragment.LoginFragment_;
 
@@ -90,7 +91,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_gallery) {
             fragmentTransaction.replace(R.id.container, new ListMobileNumberFragment_());
         } else if (id == R.id.nav_slideshow) {
-
+            fragmentTransaction.replace(R.id.container, new FaqFragment_());
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

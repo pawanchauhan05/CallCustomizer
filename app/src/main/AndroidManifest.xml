@@ -13,7 +13,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".splashScreen.activity.SplashScreenActivity_">
+        <activity android:name=".splashScreen.activity.SplashScreenActivity_"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,7 +28,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".introScreen.activity.IntroScreenActivity" />
+        <activity android:name=".introScreen.activity.IntroScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".registrationOrLogin.activity.RegistrationOrLoginActivity_" />
         <activity
             android:name=".home.activity.HomeActivity"
