@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "126415424269-vshql750788iq7u1rr4pf9ej0o51stvc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pawansinghchouhan05.callcustomizer",
+            "certificate_hash": "736B4D2A5937259B5404E45C92EBF3AFE9D694A2"
+          }
+        },
+        {
           "client_id": "126415424269-d3pa8ffirfunflm2uvauk2m8ljj0kk3d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
