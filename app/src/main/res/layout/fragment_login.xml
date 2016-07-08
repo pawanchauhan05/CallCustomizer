@@ -22,7 +22,7 @@
         <EditText
             android:textSize="18.0sp"
             android:gravity="center"
-            android:id="@+id/editUserName"
+            android:id="@+id/editUserEmail"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30.0sp"
@@ -100,6 +100,12 @@
             android:layout_centerInParent="true"
             android:visibility="visible"
             android:layout_gravity="center"/>
+
+        <Button
+            android:text="FBLogin"
+            android:id="@+id/fbLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>
 

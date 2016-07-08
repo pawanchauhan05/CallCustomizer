@@ -13,8 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookAuthorizationException;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -29,6 +38,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.pawansinghchouhan05.callcustomizer.R;
 import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity;
 //import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity_;
@@ -38,14 +51,33 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import retrofit2.adapter.rxjava.HttpException;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
+
 @EFragment(R.layout.fragment_login)
 public class LoginFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener,View.OnClickListener  {
 
-    private static final String TAG = "SignInActivity";
+    private static final String TAG = "LoginFragment";
     private static final int RC_SIGN_IN = 9001;
 
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mFirebaseAuth;
+
+    public static CallbackManager callbackManager = CallbackManager.Factory.create();
+    private Validator logInvalidator;
+
+    @Email
+    @ViewById(R.id.editUserEmail)
+    EditText editUserEmail;
+
+    @NotEmpty
+    @ViewById(R.id.editPassword)
+    EditText editPassword;
 
     @ViewById(R.id.sign_in_button)
     SignInButton mSignInButton;
@@ -53,8 +85,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
     @AfterViews
     void init() {
 
-        // Set click listeners
-        //mSignInButton.setOnClickListener(this);
+        logInvalidator = new Validator(this);
+        FacebookSdk.sdkInitialize(getContext());
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -67,6 +99,57 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
         // Initialize FirebaseAuth
         mFirebaseAuth = FirebaseAuth.getInstance();
+
+        logInvalidator.setValidationListener(new Validator.ValidationListener() {
+            @Override
+            public void onValidationSucceeded() {
+                Log.e("sucesss","validation");
+                Intent intent = new Intent(getContext(), HomeActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+
+            @Override
+            public void onValidationFailed(List<ValidationError> errors) {
+                for (ValidationError error : errors) {
+                    View view = error.getView();
+                    String message = error.getCollatedErrorMessage(getContext());
+                    if (view instanceof EditText) {
+                        ((EditText) view).setError(message);
+                    } else {
+                        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+    }
+
+    @Click(R.id.fbLogin)
+    void onFacebookLogin() {
+        List<String> permissionNeeds = Arrays.asList("email");
+
+        LoginManager.getInstance().logInWithReadPermissions(
+                this,
+                permissionNeeds);
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResults) {
+                        Log.e("sucess","success");
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.e("sucess","cancel");
+                    }
+
+
+                    @Override
+                    public void onError(FacebookException e) {
+                        Log.e("sucess","error");
+                    }
+                });
+
     }
 
     private void handleFirebaseAuthResult(AuthResult authResult) {
@@ -100,6 +183,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                 Log.e(TAG, "Google Sign In failed.");
             }
         }
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -143,11 +227,10 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         dialog.show();
     }
 
-    @Click(R.id.loginButton)
+    /*@Click(R.id.loginButton)
     void login() {
-        Intent intent = new Intent(getContext(), HomeActivity.class);
-        startActivity(intent);
-    }
+
+    }*/
 
     @Click(R.id.sign_in_button)
     void googleLogin() {
@@ -171,4 +254,11 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
         Toast.makeText(getContext(), "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
+
+    @Click(R.id.loginButton)
+    void simplelogin() {
+        logInvalidator.validate();
+    }
+
+
 }
