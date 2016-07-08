@@ -1,29 +1,31 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:background="#e9f7dee7"
     tools:context="com.pawansinghchouhan05.callcustomizer.home.fragment.FaqFragment">
 
     <TextView
         android:id="@+id/text_frequently_asked"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textColor="#640464"
         android:text="FREQUENTLY ASKED QUESTIONS"
-        android:textSize="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:textSize="16.0sp"
+        android:layout_marginTop="10.0sp"
+        android:layout_marginBottom="10.0sp"
         style="bold" />
 
     <ExpandableListView
         android:id="@+id/faqExpandableList"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:layout_width="wrap_content"
         android:groupIndicator="@null"
-        android:layout_margin="5dp"
+        android:layout_margin="5.0sp"
         android:layout_below="@+id/text_frequently_asked"
         android:layout_gravity="center_horizontal"
         android:layout_centerVertical="true" />
 
-</LinearLayout>
+</RelativeLayout>
