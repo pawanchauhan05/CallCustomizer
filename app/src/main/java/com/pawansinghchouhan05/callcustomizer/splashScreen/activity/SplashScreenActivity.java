@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import com.pawansinghchouhan05.callcustomizer.R;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
+import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity;
 import com.pawansinghchouhan05.callcustomizer.introScreen.activity.IntroScreenActivity;
 
 import org.androidannotations.annotations.AfterViews;
@@ -19,7 +22,11 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 try {
                     Thread.sleep(2000);
-                    startActivity(new Intent(SplashScreenActivity.this, IntroScreenActivity.class));
+                    if(!Utils.readPreferences(getApplicationContext(), Constant.LOGIN_STATUS, "").equals(Constant.LOGIN_STATUS_VALUE)) {
+                        startActivity(new Intent(SplashScreenActivity.this, IntroScreenActivity.class));
+                    } else {
+                        startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
+                    }
                     finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

@@ -43,6 +43,8 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.pawansinghchouhan05.callcustomizer.R;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity;
 //import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity_;
 
@@ -103,7 +105,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         logInvalidator.setValidationListener(new Validator.ValidationListener() {
             @Override
             public void onValidationSucceeded() {
-                Log.e("sucesss","validation");
+                Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_AUTH);
+                Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);
                 Intent intent = new Intent(getContext(), HomeActivity.class);
                 startActivity(intent);
                 getActivity().finish();
@@ -136,6 +139,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                     @Override
                     public void onSuccess(LoginResult loginResults) {
                         Log.e("sucess","success");
+                        Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_FACEBOOK);
                     }
 
                     @Override
@@ -227,13 +231,10 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         dialog.show();
     }
 
-    /*@Click(R.id.loginButton)
-    void login() {
-
-    }*/
 
     @Click(R.id.sign_in_button)
     void googleLogin() {
+        Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_GOOGLE);
         Intent intent = new Intent(getContext(), HomeActivity.class);
         startActivity(intent);
     }

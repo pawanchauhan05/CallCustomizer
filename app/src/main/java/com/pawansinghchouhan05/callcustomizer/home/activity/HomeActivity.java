@@ -16,11 +16,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.pawansinghchouhan05.callcustomizer.R;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.fragment.AddNumberFragment_;
 import com.pawansinghchouhan05.callcustomizer.home.fragment.FaqFragment_;
 import com.pawansinghchouhan05.callcustomizer.home.fragment.ListMobileNumberFragment_;
@@ -115,10 +119,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.nav_logout) {
-            mFirebaseAuth.signOut();
-            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-            startActivity(new Intent(this, RegistrationOrLoginActivity_.class));
-            finish();
+            logout();
             return true;
         }
         fragmentTransaction.addToBackStack(null);
@@ -132,5 +133,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    private void logout() {
+        String loginType = Utils.readPreferences(this, Constant.LOGIN_TYPE, "");
+        if(loginType.equals(Constant.LOGIN_TYPE_GOOGLE)) {
+            mFirebaseAuth.signOut();
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+        } else if(loginType.equals(Constant.LOGIN_TYPE_FACEBOOK)) {
+            if (AccessToken.getCurrentAccessToken() != null) {
+                LoginManager.getInstance().logOut();
+            }
+        }
+        startActivity(new Intent(this, RegistrationOrLoginActivity_.class));
+        finish();
     }
 }

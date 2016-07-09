@@ -41,6 +41,7 @@ public class IntroScreenActivity extends AppIntro {
     private void loadActivity() {
         Intent intent = new Intent(this, RegistrationOrLoginActivity_.class);
         startActivity(intent);
+        finish();
     }
 }
 
