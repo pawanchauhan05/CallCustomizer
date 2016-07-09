@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#e9fccdde">
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/text_faq_answer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceMedium"
         android:layout_gravity="center_horizontal"
-        android:text="text_faq_answer"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:textAlignment="center"/>
+        android:layout_marginLeft="7.0sp"
+        android:layout_marginTop="10.0sp"
+        android:textColor="#868282"
+        android:layout_marginRight="7.0sp"
+        android:layout_marginBottom="10.0sp"
+        android:text="text_faq_answer" />
 
 </LinearLayout>
