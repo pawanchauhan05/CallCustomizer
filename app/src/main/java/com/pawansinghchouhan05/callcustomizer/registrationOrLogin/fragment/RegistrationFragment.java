@@ -22,6 +22,7 @@ import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserReg
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.services.UserLoginService;
 
 import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
@@ -47,8 +48,9 @@ public class RegistrationFragment extends Fragment {
 
     private UserLoginService userLoginService = callCustomizerApplication.retrofit.create(UserLoginService.class);
 
-    private void register() {
-        Observable<String> registerUser = userLoginService.registerUser(new UserRegistrationForm());
+    @Click(R.id.buttonRegisterUser)
+    void register() {
+        Observable<String> registerUser = userLoginService.registerUser(new UserRegistrationForm("sunny", "p@e.com", "12345", Constant.LOGIN_TYPE_AUTH));
         try {
             registerUser.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<String>() {
                 @Override
@@ -63,6 +65,7 @@ public class RegistrationFragment extends Fragment {
 
                 @Override
                 public void onNext(String status) {
+                    Log.e("Status", status);
                     /*if(!userLoggedIn.getEmail().equals(Constant.USER_DOES_NOT_EXIST)) {
                         Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_AUTH);
                         Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);
