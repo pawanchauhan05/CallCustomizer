@@ -106,19 +106,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.add_number) {
             fragmentTransaction.replace(R.id.container, new AddNumberFragment_());
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.show_number) {
             fragmentTransaction.replace(R.id.container, new ListMobileNumberFragment_());
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.faq) {
             fragmentTransaction.replace(R.id.container, new FaqFragment_());
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.about) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.contact_us) {
 
-        } else if (id == R.id.nav_logout) {
+        } else if (id == R.id.logout) {
             logout();
             return true;
         }
