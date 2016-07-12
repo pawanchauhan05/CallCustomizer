@@ -23,6 +23,7 @@ public class Constant {
 
     // API's
     public static final String LOG_IN = "index/login-user-mobile";
+    public static final String REGISTER_USER = "index/register-user-mobile";
 
 
 }
