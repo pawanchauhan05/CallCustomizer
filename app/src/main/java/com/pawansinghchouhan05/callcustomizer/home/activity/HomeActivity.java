@@ -145,6 +145,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 LoginManager.getInstance().logOut();
             }
         }
+        Utils.clearPreferences(this);
         startActivity(new Intent(this, RegistrationOrLoginActivity_.class));
         finish();
     }

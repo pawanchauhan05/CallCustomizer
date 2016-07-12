@@ -41,6 +41,13 @@ public class Utils {
         UUID.randomUUID().toString();
     }
 
+    public static void clearPreferences(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.commit();
+    }
+
 
     public static void storeCustomNumberListToFCMDatabase(CustomNumber customNumber, Context context)  {
         //String key = UUID.randomUUID().toString();

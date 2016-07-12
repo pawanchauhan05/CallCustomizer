@@ -17,8 +17,12 @@ public class Constant {
     public static final String LOGIN_STATUS = "LoginStatus";
     public static final String LOGIN_STATUS_VALUE = "TRUE";
 
+    // Error's
+    public static final String USER_DOES_NOT_EXIST = "user does not exist";
 
 
+    // API's
+    public static final String LOG_IN = "index/login-user-mobile";
 
 
 }

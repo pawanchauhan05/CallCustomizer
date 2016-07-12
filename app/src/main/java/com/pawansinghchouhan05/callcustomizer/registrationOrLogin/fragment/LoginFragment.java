@@ -43,12 +43,18 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.pawansinghchouhan05.callcustomizer.R;
+import com.pawansinghchouhan05.callcustomizer.core.application.CallCustomizerApplication;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
+import com.pawansinghchouhan05.callcustomizer.core.utils.PopUpMsg;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoggedIn;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoginForm;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.services.UserLoginService;
 //import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity_;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -58,7 +64,9 @@ import java.util.Date;
 import java.util.List;
 
 import retrofit2.adapter.rxjava.HttpException;
+import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 @EFragment(R.layout.fragment_login)
@@ -72,6 +80,11 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
     public static CallbackManager callbackManager = CallbackManager.Factory.create();
     private Validator logInvalidator;
+
+    @App
+    CallCustomizerApplication callCustomizerApplication;
+
+    private UserLoginService userLoginService = callCustomizerApplication.retrofit.create(UserLoginService.class);
 
     @Email
     @ViewById(R.id.editUserEmail)
@@ -105,11 +118,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         logInvalidator.setValidationListener(new Validator.ValidationListener() {
             @Override
             public void onValidationSucceeded() {
-                Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_AUTH);
-                Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);
-                Intent intent = new Intent(getContext(), HomeActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+                login();
             }
 
             @Override
@@ -261,5 +270,36 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         logInvalidator.validate();
     }
 
+    private void login() {
+        Observable<UserLoggedIn> userLoggedInObservable = userLoginService.signIn(new UserLoginForm(editUserEmail.getText().toString().trim(),editPassword.getText().toString().trim()));
+        try {
+            userLoggedInObservable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<UserLoggedIn>() {
+                @Override
+                public void onCompleted() {
+                    Log.e("Complete","C");
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    Log.e("Error",e.getMessage());
+                }
+
+                @Override
+                public void onNext(UserLoggedIn userLoggedIn) {
+                    if(!userLoggedIn.getEmail().equals(Constant.USER_DOES_NOT_EXIST)) {
+                        Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_AUTH);
+                        Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);
+                        Intent intent = new Intent(getContext(), HomeActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    } else {
+                        PopUpMsg.getInstance().generateToastMsg(getContext(), Constant.USER_DOES_NOT_EXIST);
+                    }
+                }
+            });
+        } catch (Exception e) {
+        }
+
+    }
 
 }
