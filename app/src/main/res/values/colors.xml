@@ -4,5 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="loginTextColor">#9b9797</color>
+    <color name="app_color_secondary">#ffde8d47</color>
+    <color name="black">#ff000000</color>
+    <color name="light_grey">#ffaaaaaa</color>
 
 </resources>
