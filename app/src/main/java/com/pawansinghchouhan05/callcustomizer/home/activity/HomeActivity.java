@@ -26,6 +26,7 @@ import com.pawansinghchouhan05.callcustomizer.R;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.fragment.AddNumberFragment_;
+import com.pawansinghchouhan05.callcustomizer.home.fragment.ContactUsFragment;
 import com.pawansinghchouhan05.callcustomizer.home.fragment.FaqFragment_;
 import com.pawansinghchouhan05.callcustomizer.home.fragment.ListMobileNumberFragment_;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.activity.RegistrationOrLoginActivity_;
@@ -117,6 +118,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.share) {
 
         } else if (id == R.id.contact_us) {
+            fragmentTransaction.replace(R.id.container,new ContactUsFragment());
 
         } else if (id == R.id.logout) {
             logout();
