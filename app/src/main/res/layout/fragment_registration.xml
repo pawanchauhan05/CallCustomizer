@@ -26,7 +26,7 @@
             android:layout_marginLeft="30.0sp"
             android:layout_marginRight="30.0sp"
             android:layout_marginBottom="10.0sp"
-            android:hint="Email"
+            android:hint="Name"
             android:inputType="text" />
 
         <!--Email Lable-->
@@ -39,7 +39,7 @@
             android:layout_marginLeft="30.0sp"
             android:layout_marginRight="30.0sp"
             android:layout_marginBottom="10.0sp"
-            android:hint="Name"
+            android:hint="Email"
             android:inputType="textEmailAddress" />
         <!--  Password Label -->
 
@@ -64,7 +64,7 @@
             android:layout_marginLeft="30.0sp"
             android:layout_marginRight="30.0sp"
             android:layout_marginBottom="10.0sp"
-            android:hint="Conform Password"
+            android:hint="Confirm Password"
             android:inputType="textPassword" />
 
         <!-- Login button -->
