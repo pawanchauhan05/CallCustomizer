@@ -48,12 +48,12 @@ public class RegistrationFragment extends Fragment {
     @ViewById(R.id.editTextName)
     EditText editTextName;
 
-    @NotEmpty
+
     @Email
     @ViewById(R.id.editTextEmail)
     EditText editTextEmail;
 
-    @NotEmpty
+    
     @Password(min = 6)
     @ViewById(R.id.editTextPassword)
     EditText editTextPassword;
