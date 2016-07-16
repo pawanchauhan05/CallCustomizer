@@ -114,6 +114,7 @@ public class AddNumberFragment extends Fragment {
 
         UserLoggedIn userLoggedIn = new Gson().fromJson(Utils.readPreferences(getContext(), Constant.LOGGED_IN_USER, ""), UserLoggedIn.class);
         CustomNumber customNumber = new CustomNumber(userLoggedIn.getEmail(), editTextName.getText().toString().trim(), Long.parseLong(editTextNumber.getText().toString().trim()));
+        Log.e("CM",customNumber.toString());
 
         Observable<ServerStatus> stringObservable = userLoggedInService.addNumber(customNumber);
         try {

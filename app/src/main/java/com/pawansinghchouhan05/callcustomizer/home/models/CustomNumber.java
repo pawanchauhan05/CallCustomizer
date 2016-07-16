@@ -55,8 +55,9 @@ public class CustomNumber implements Parcelable {
     @Override
     public String toString() {
         return "CustomNumber{" +
-                "name='" + name + '\'' +
-                ", mobileNumber=" + customNumber +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", customNumber=" + customNumber +
                 '}';
     }
 
