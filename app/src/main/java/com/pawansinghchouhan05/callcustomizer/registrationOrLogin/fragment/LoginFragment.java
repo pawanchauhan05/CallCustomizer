@@ -3,16 +3,12 @@ package com.pawansinghchouhan05.callcustomizer.registrationOrLogin.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -38,6 +34,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
@@ -48,6 +46,8 @@ import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
 import com.pawansinghchouhan05.callcustomizer.core.utils.PopUpMsg;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity;
+import com.pawansinghchouhan05.callcustomizer.home.models.Token;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.ServerStatus;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoggedIn;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoginForm;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.services.UserLoginService;
@@ -60,10 +60,8 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
-import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -84,7 +82,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
     @App
     CallCustomizerApplication callCustomizerApplication;
 
-    private UserLoginService userLoginService = callCustomizerApplication.retrofit.create(UserLoginService.class);
+    private UserLoginService userLoginService = CallCustomizerApplication.retrofit.create(UserLoginService.class);
 
     @Email
     @ViewById(R.id.editUserEmail)
@@ -287,10 +285,12 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                 @Override
                 public void onNext(UserLoggedIn userLoggedIn) {
                     if(!userLoggedIn.getEmail().equals(Constant.USER_DOES_NOT_EXIST)) {
+                        Utils.savePreferences(getContext(), Constant.LOGGED_IN_USER, new Gson().toJson(userLoggedIn));
                         Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_AUTH);
                         Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);
                         Intent intent = new Intent(getContext(), HomeActivity.class);
                         startActivity(intent);
+                        registerTokenToServer(new Token(userLoggedIn.getEmail(), FirebaseInstanceId.getInstance().getToken()));
                         getActivity().finish();
                     } else {
                         PopUpMsg.getInstance().generateToastMsg(getContext(), Constant.USER_DOES_NOT_EXIST);
@@ -301,5 +301,31 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         }
 
     }
+
+    private void registerTokenToServer(Token token) {
+        Observable<ServerStatus> stringObservable = userLoginService.registerToken(token);
+        try {
+            stringObservable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<ServerStatus>() {
+                @Override
+                public void onCompleted() {
+                    Log.e("Complete","C");
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    Log.e("Error",e.getMessage());
+                }
+
+                @Override
+                public void onNext(ServerStatus status) {
+
+                }
+
+            });
+        } catch (Exception e) {
+        }
+    }
+
+
 
 }

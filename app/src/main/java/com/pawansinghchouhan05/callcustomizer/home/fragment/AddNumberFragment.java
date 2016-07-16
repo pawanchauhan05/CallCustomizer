@@ -11,12 +11,18 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.pawansinghchouhan05.callcustomizer.R;
+import com.pawansinghchouhan05.callcustomizer.core.application.CallCustomizerApplication;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
+import com.pawansinghchouhan05.callcustomizer.home.services.UserLoggedInService;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.ServerStatus;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoggedIn;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -24,11 +30,21 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 @EFragment(R.layout.fragment_add_number)
 public class AddNumberFragment extends Fragment {
 
     private static final int REQUEST_CODE = 1;
     private List<CustomNumber> customNumberList = new ArrayList<>();
+
+    @App
+    CallCustomizerApplication callCustomizerApplication;
+
+    private UserLoggedInService userLoggedInService = callCustomizerApplication.retrofit.create(UserLoggedInService.class);
 
     @ViewById(R.id.editTextName)
     EditText editTextName;
@@ -37,7 +53,7 @@ public class AddNumberFragment extends Fragment {
     EditText editTextNumber;
 
     @Click(R.id.addNumber)
-    void addNumber() {
+    void addNumberFromContacts() {
         Uri uri = Uri.parse("content://contacts");
         Intent intent = new Intent(Intent.ACTION_PICK, uri);
         intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
@@ -54,7 +70,7 @@ public class AddNumberFragment extends Fragment {
         }
         if(customNumber != null) {
             editTextName.setText(customNumber.getName());
-            editTextNumber.setText(customNumber.getMobileNumber()+"");
+            editTextNumber.setText(customNumber.getCustomNumber()+"");
         }
     }
 
@@ -84,10 +100,41 @@ public class AddNumberFragment extends Fragment {
         }
     }
 
-    @Click(R.id.buttonAdd)
+
     void addNumberManually() {
         CustomNumber customNumber = new CustomNumber(editTextName.getText().toString().trim(), Long.parseLong(editTextNumber.getText().toString().trim()));
         Utils.storeCustomNumberListToFCMDatabase(customNumber, getContext());
+    }
+
+    /**
+     * to add custom number information to server
+     */
+    @Click(R.id.buttonAdd)
+    void addNumber() {
+
+        UserLoggedIn userLoggedIn = new Gson().fromJson(Utils.readPreferences(getContext(), Constant.LOGGED_IN_USER, ""), UserLoggedIn.class);
+        CustomNumber customNumber = new CustomNumber(userLoggedIn.getEmail(), editTextName.getText().toString().trim(), Long.parseLong(editTextNumber.getText().toString().trim()));
+
+        Observable<ServerStatus> stringObservable = userLoggedInService.addNumber(customNumber);
+        try {
+            stringObservable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<ServerStatus>() {
+                @Override
+                public void onCompleted() {
+                    Log.e("Complete","C");
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    Log.e("Error",e.getMessage());
+                }
+
+                @Override
+                public void onNext(ServerStatus status) {
+
+                }
+
+            });
+        } catch (Exception e) {}
     }
 
 }

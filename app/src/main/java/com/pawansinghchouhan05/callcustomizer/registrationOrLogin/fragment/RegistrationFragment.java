@@ -96,10 +96,15 @@ public class RegistrationFragment extends Fragment {
     }
 
 
+    /**
+     *
+     */
     @Click(R.id.buttonRegisterUser)
-    void simpleregister() {
+    void simpleRegister() {
         registerInvalidator.validate();
     }
+
+
     void register() {
 
         Observable<String> registerUser = userLoginService.registerUser(new UserRegistrationForm("sunny", "p@e.com", "12345", Constant.LOGIN_TYPE_AUTH));
@@ -117,7 +122,7 @@ public class RegistrationFragment extends Fragment {
 
                 @Override
                 public void onNext(String status) {
-                    Log.e("Status", status);
+                    Log.e("ServerStatus", status);
                     /*if(!userLoggedIn.getEmail().equals(Constant.USER_DOES_NOT_EXIST)) {
                         Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_AUTH);
                         Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);

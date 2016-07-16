@@ -1,6 +1,8 @@
 package com.pawansinghchouhan05.callcustomizer.registrationOrLogin.services;
 
 import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
+import com.pawansinghchouhan05.callcustomizer.home.models.Token;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.ServerStatus;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoggedIn;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoginForm;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserRegistrationForm;
@@ -20,4 +22,9 @@ public interface UserLoginService {
     @POST(Constant.REGISTER_USER)
     Observable<String> registerUser(@Body UserRegistrationForm registrationForm);
 
+    @POST(Constant.REGISTER_TOKEN)
+    Observable<ServerStatus> registerToken(@Body Token token);
+
+    @POST(Constant.UPDATE_TOKEN)
+    Observable<ServerStatus> updateToken(@Body Token token);
 }

@@ -10,15 +10,22 @@ import java.util.Objects;
  * Created by Fitterfox-Pawan on 6/23/2016.
  */
 public class CustomNumber implements Parcelable {
+    private String email;
     private String name;
-    private long mobileNumber;
+    private long customNumber;
 
     public CustomNumber() {
     }
 
     public CustomNumber(String name, long mobileNumber) {
         this.name = name;
-        this.mobileNumber = mobileNumber;
+        this.customNumber = mobileNumber;
+    }
+
+    public CustomNumber(String email, String name, long mobileNumber) {
+        this.email = email;
+        this.name = name;
+        this.customNumber = mobileNumber;
     }
 
     public String getName() {
@@ -29,33 +36,29 @@ public class CustomNumber implements Parcelable {
         this.name = name;
     }
 
-    public long getMobileNumber() {
-        return mobileNumber;
+    public long getCustomNumber() {
+        return customNumber;
     }
 
-    public void setMobileNumber(long mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setCustomNumber(long mobileNumber) {
+        this.customNumber = mobileNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
     public String toString() {
         return "CustomNumber{" +
                 "name='" + name + '\'' +
-                ", mobileNumber=" + mobileNumber +
+                ", mobileNumber=" + customNumber +
                 '}';
     }
-
-    /*@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CustomNumber that = (CustomNumber) o;
-
-        if (mobileNumber != that.mobileNumber) return false;
-        return name != null ? name.equals(that.name) : that.name == null;
-
-    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -64,14 +67,15 @@ public class CustomNumber implements Parcelable {
 
         CustomNumber that = (CustomNumber) o;
 
-        return mobileNumber == that.mobileNumber;
+        return customNumber == that.customNumber;
 
     }
 
     @Override
     public int hashCode() {
-        return (int) (mobileNumber ^ (mobileNumber >>> 32));
+        return (int) (customNumber ^ (customNumber >>> 32));
     }
+
 
     @Override
     public int describeContents() {
@@ -80,13 +84,15 @@ public class CustomNumber implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.email);
         dest.writeString(this.name);
-        dest.writeLong(this.mobileNumber);
+        dest.writeLong(this.customNumber);
     }
 
     protected CustomNumber(Parcel in) {
+        this.email = in.readString();
         this.name = in.readString();
-        this.mobileNumber = in.readLong();
+        this.customNumber = in.readLong();
     }
 
     public static final Parcelable.Creator<CustomNumber> CREATOR = new Parcelable.Creator<CustomNumber>() {

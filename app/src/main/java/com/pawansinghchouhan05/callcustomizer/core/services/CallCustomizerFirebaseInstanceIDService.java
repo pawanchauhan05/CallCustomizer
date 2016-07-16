@@ -4,11 +4,28 @@ import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.google.gson.Gson;
+import com.pawansinghchouhan05.callcustomizer.core.application.CallCustomizerApplication;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
+import com.pawansinghchouhan05.callcustomizer.home.models.Token;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.ServerStatus;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoggedIn;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.services.UserLoginService;
+
+import org.androidannotations.annotations.App;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Fitterfox-Pawan on 6/24/2016.
  */
 public class CallCustomizerFirebaseInstanceIDService extends FirebaseInstanceIdService {
+
+    private UserLoginService userLoginService = CallCustomizerApplication.retrofit.create(UserLoginService.class);
 
     private static final String TAG = "MyFirebaseIIDService";
 
@@ -38,7 +55,31 @@ public class CallCustomizerFirebaseInstanceIDService extends FirebaseInstanceIdS
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-        // Add custom implementation, as needed.
+        if(!Utils.readPreferences(getApplicationContext(), Constant.LOGGED_IN_USER, "").equals("")) {
+            UserLoggedIn userLoggedIn = new Gson().fromJson(Utils.readPreferences(getApplicationContext(), Constant.LOGGED_IN_USER, ""),UserLoggedIn.class);
+            Observable<ServerStatus> stringObservable = userLoginService.registerToken(new Token(userLoggedIn.getEmail(), token));
+            try {
+                stringObservable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<ServerStatus>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("Complete","C");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("Error",e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(ServerStatus status) {
+
+                    }
+
+                });
+            } catch (Exception e) {
+            }
+        }
+
     }
 }
 

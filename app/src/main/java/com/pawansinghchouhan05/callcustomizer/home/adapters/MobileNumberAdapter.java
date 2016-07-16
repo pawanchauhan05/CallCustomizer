@@ -73,7 +73,7 @@ public class MobileNumberAdapter extends RecyclerView.Adapter<MobileNumberAdapte
     public void onBindViewHolder(MobileNumberAdapter.MyViewHolder holder, final int position) {
         final CustomNumber customNumber = customNumberList.get(position);
         holder.name.setText(customNumber.getName());
-        holder.mobileNumber.setText(""+customNumber.getMobileNumber());
+        holder.mobileNumber.setText(""+customNumber.getCustomNumber());
         holder.imageViewDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

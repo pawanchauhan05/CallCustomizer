@@ -6,15 +6,13 @@ package com.pawansinghchouhan05.callcustomizer.home.models;
 public class Token {
     private String email;
     private String token;
-    private long date;
 
     public Token() {
     }
 
-    public Token(String email, String token, long date) {
+    public Token(String email, String token) {
         this.email = email;
         this.token = token;
-        this.date = date;
     }
 
     public String getEmail() {
@@ -33,20 +31,12 @@ public class Token {
         this.token = token;
     }
 
-    public long getDate() {
-        return date;
-    }
-
-    public void setDate(long date) {
-        this.date = date;
-    }
 
     @Override
     public String toString() {
         return "Token{" +
                 "email='" + email + '\'' +
                 ", token='" + token + '\'' +
-                ", date=" + date +
                 '}';
     }
 }

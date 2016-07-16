@@ -33,7 +33,7 @@ public class UserLoggedIn {
 
     @Override
     public String toString() {
-        return "UserLoggedIn{" +
+        return "UserLoggedInService{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
