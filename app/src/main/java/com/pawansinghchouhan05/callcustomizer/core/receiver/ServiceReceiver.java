@@ -33,8 +33,10 @@ public class ServiceReceiver extends BroadcastReceiver {
         telephony.listen(customPhoneListener, PhoneStateListener.LISTEN_CALL_STATE);
 
         Bundle bundle = intent.getExtras();
-        String phone_number = bundle.getString("incoming_number");
-        System.out.println("Phone Number : " + phone_number);
+        String number = bundle.getString("incoming_number");
+        number = number.replace(" ","");
+        number = number.replace("+91","");
+        System.out.println("Phone Number : " + number);
 
         if(mode != AudioManager.RINGER_MODE_NORMAL) {
             myAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);

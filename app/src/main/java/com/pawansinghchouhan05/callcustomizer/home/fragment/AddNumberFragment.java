@@ -93,8 +93,12 @@ public class AddNumberFragment extends Fragment {
                 number = number.replace(" ","");
                 number = number.replace("+91","");
                 Log.e("number", "ZZZ number : " + number + " , name : " + name);
-                CustomNumber customNumber = new CustomNumber(name, Long.parseLong(number.trim()));
-                Utils.storeCustomNumberListToFCMDatabase(customNumber, getContext());
+                UserLoggedIn userLoggedIn = new Gson().fromJson(Utils.readPreferences(getContext(), Constant.LOGGED_IN_USER, ""), UserLoggedIn.class);
+                CustomNumber customNumber = new CustomNumber(userLoggedIn.getEmail(), name, Long.parseLong(number.trim()));
+                sendDataToServer(customNumber);
+
+                //CustomNumber customNumber = new CustomNumber(name, Long.parseLong(number.trim()));
+                //Utils.storeCustomNumberListToFCMDatabase(customNumber, getContext());
 
             }
         }
@@ -114,8 +118,14 @@ public class AddNumberFragment extends Fragment {
 
         UserLoggedIn userLoggedIn = new Gson().fromJson(Utils.readPreferences(getContext(), Constant.LOGGED_IN_USER, ""), UserLoggedIn.class);
         CustomNumber customNumber = new CustomNumber(userLoggedIn.getEmail(), editTextName.getText().toString().trim(), Long.parseLong(editTextNumber.getText().toString().trim()));
-        Log.e("CM",customNumber.toString());
+        Log.e("CM", customNumber.toString());
 
+        sendDataToServer(customNumber);
+
+
+    }
+
+    void sendDataToServer(CustomNumber customNumber) {
         Observable<ServerStatus> stringObservable = userLoggedInService.addNumber(customNumber);
         try {
             stringObservable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<ServerStatus>() {
