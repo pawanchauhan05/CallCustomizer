@@ -25,7 +25,8 @@
                 android:layout_weight="0.5"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/switch1" />
+                android:id="@+id/completeSilentSwitch"
+                android:checked="false" />
 
         </LinearLayout>
 

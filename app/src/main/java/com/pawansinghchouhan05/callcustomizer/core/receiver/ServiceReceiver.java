@@ -3,6 +3,7 @@ package com.pawansinghchouhan05.callcustomizer.core.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
@@ -15,11 +16,17 @@ import android.util.Log;
  */
 public class ServiceReceiver extends BroadcastReceiver {
 
-    Context context;
+    private Context context;
+    public AudioManager myAudioManager;
+    private int mode;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         this.context = context;
+        this.myAudioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+        mode = this.myAudioManager.getRingerMode();
+
         TelephonyManager telephony = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
         MyPhoneStateListener customPhoneListener = new MyPhoneStateListener();
 
@@ -29,14 +36,21 @@ public class ServiceReceiver extends BroadcastReceiver {
         String phone_number = bundle.getString("incoming_number");
         System.out.println("Phone Number : " + phone_number);
 
+        if(mode != AudioManager.RINGER_MODE_NORMAL) {
+            myAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+        }
+
     }
 
     public class MyPhoneStateListener extends PhoneStateListener {
+
 
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
 
             Log.e("Incoming" , incomingNumber);
+
+
             switch(state){
                 case TelephonyManager.CALL_STATE_RINGING:
                     System.out.println("PHONE RINGING.........TAKE IT.........");
@@ -53,6 +67,9 @@ public class ServiceReceiver extends BroadcastReceiver {
                 case TelephonyManager.CALL_STATE_OFFHOOK:
                     System.out.println("CALL_STATE_OFFHOOK...........");
                     Log.e("OFFHOOK","CALL_STATE_OFFHOOK...........");
+                    break;
+
+                case TelephonyManager.CALL_STATE_IDLE:
                     break;
             }
 

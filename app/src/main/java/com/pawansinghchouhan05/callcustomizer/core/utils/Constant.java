@@ -17,12 +17,15 @@ public class Constant {
     public static final String LOGIN_STATUS = "LoginStatus";
     public static final String LOGIN_STATUS_VALUE = "TRUE";
 
+    public static final String COMPLETE_SILENT = "CompleteSilent";
+    public static final String COMPLETE_SILENT_STATUS = "TRUE"; // ON
+
     // Error's
     public static final String USER_DOES_NOT_EXIST = "user does not exist";
 
 
     // API's
-    public static final String BASE_URL = "http://192.168.1.11/CallCustomizer_web/index.php/";
+    public static final String BASE_URL = "http://192.168.1.2/CallCustomizer_web/index.php/";
     public static final String LOG_IN = "index/login-user-mobile";
     public static final String REGISTER_USER = "index/register-user-mobile";
     public static final String REGISTER_TOKEN = "index/register-token-mobile";

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +37,7 @@ import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.services.UserL
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
@@ -57,6 +59,9 @@ public class ListMobileNumberFragment extends Fragment {
     CallCustomizerApplication callCustomizerApplication;
 
     private UserLoggedInService userLoggedInService= CallCustomizerApplication.retrofit.create(UserLoggedInService.class);
+
+    @ViewById(R.id.completeSilentSwitch)
+    Switch completeSilentSwitch;
 
     @ViewById(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -133,5 +138,16 @@ public class ListMobileNumberFragment extends Fragment {
         } catch (Exception e) { e.printStackTrace();}
 
         return customNumberList;
+    }
+
+    @Click(R.id.completeSilentSwitch)
+    void toggleCompleteSilent() {
+        if(completeSilentSwitch.isChecked()) {
+            Log.e("check","ON");
+            Utils.savePreferences(getContext(), Constant.COMPLETE_SILENT, Constant.COMPLETE_SILENT_STATUS);
+        } else {
+            Log.e("check","OFF");
+            Utils.savePreferences(getContext(), Constant.COMPLETE_SILENT, "");
+        }
     }
 }
