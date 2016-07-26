@@ -6,9 +6,31 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.pawansinghchouhan05.callcustomizer.core.application.CallCustomizerApplication;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
+import com.pawansinghchouhan05.callcustomizer.home.adapters.MobileNumberAdapter;
+import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
+import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumberList;
+import com.pawansinghchouhan05.callcustomizer.home.models.Email;
+import com.pawansinghchouhan05.callcustomizer.home.services.UserLoggedInService;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoggedIn;
+
+import org.androidannotations.annotations.App;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -27,6 +49,7 @@ public class ServiceReceiver extends BroadcastReceiver {
         this.myAudioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
         mode = this.myAudioManager.getRingerMode();
 
+
         TelephonyManager telephony = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
         MyPhoneStateListener customPhoneListener = new MyPhoneStateListener();
 
@@ -38,8 +61,11 @@ public class ServiceReceiver extends BroadcastReceiver {
         number = number.replace("+91","");
         System.out.println("Phone Number : " + number);
 
-        if(mode != AudioManager.RINGER_MODE_NORMAL) {
-            myAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+        boolean flag = CallCustomizerApplication.numbers.equals(new CustomNumber("",Long.parseLong(number)));
+        if(flag == true) {
+            if(mode != AudioManager.RINGER_MODE_NORMAL) {
+                myAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+            }
         }
 
     }
@@ -78,5 +104,7 @@ public class ServiceReceiver extends BroadcastReceiver {
             //super.onCallStateChanged(state, incomingNumber);
         }
     }
+
+
 
 }

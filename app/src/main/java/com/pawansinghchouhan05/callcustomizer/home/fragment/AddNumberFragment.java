@@ -125,6 +125,10 @@ public class AddNumberFragment extends Fragment {
 
     }
 
+    /**
+     * to custom number object to server
+     * @param customNumber
+     */
     void sendDataToServer(CustomNumber customNumber) {
         Observable<ServerStatus> stringObservable = userLoggedInService.addNumber(customNumber);
         try {
