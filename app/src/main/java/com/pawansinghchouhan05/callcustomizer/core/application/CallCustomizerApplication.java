@@ -47,14 +47,14 @@ public class CallCustomizerApplication extends Application {
     public static List<CustomNumber> numbers = new ArrayList<>();
 
 
-
-
     @Override
     public void onCreate() {
         super.onCreate();
         init();
         userLoggedInService = CallCustomizerApplication.retrofit.create(UserLoggedInService.class);
-        numbers = getCustomNumber();
+        if(!Utils.readPreferences(getApplicationContext(), Constant.LOGIN_STATUS, "").equals(""))
+            numbers = getCustomNumber();
+
     }
 
     private void init() {

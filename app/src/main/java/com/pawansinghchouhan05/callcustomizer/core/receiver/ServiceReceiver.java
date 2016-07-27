@@ -61,10 +61,12 @@ public class ServiceReceiver extends BroadcastReceiver {
         number = number.replace("+91","");
         System.out.println("Phone Number : " + number);
 
-        boolean flag = CallCustomizerApplication.numbers.equals(new CustomNumber("",Long.parseLong(number)));
-        if(flag == true) {
-            if(mode != AudioManager.RINGER_MODE_NORMAL) {
-                myAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+        if(!Utils.readPreferences(context, Constant.LOGIN_STATUS, "").equals("") && !Utils.readPreferences(context, Constant.LOGIN_STATUS, "").equals("")) {
+            boolean flag = CallCustomizerApplication.numbers.equals(new CustomNumber("",Long.parseLong(number)));
+            if(flag == true) {
+                if(mode != AudioManager.RINGER_MODE_NORMAL) {
+                    myAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                }
             }
         }
 
