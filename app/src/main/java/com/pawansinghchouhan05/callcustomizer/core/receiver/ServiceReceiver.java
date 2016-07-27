@@ -57,12 +57,19 @@ public class ServiceReceiver extends BroadcastReceiver {
 
         Bundle bundle = intent.getExtras();
         String number = bundle.getString("incoming_number");
-        number = number.replace(" ","");
+        //number = number.replace(" ","");
         number = number.replace("+91","");
         System.out.println("Phone Number : " + number);
 
         if(!Utils.readPreferences(context, Constant.LOGIN_STATUS, "").equals("") && !Utils.readPreferences(context, Constant.LOGIN_STATUS, "").equals("")) {
-            boolean flag = CallCustomizerApplication.numbers.equals(new CustomNumber("",Long.parseLong(number)));
+            boolean flag = false;
+            for (CustomNumber customNumber: CallCustomizerApplication.numbers) {
+                if(customNumber.equals(new CustomNumber("",Long.parseLong(number)))) {
+                    flag = true;
+                    break;
+                }
+            }
+
             if(flag == true) {
                 if(mode != AudioManager.RINGER_MODE_NORMAL) {
                     myAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
