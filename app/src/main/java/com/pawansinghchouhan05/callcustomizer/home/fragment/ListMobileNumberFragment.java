@@ -137,6 +137,23 @@ public class ListMobileNumberFragment extends Fragment {
             });
         } catch (Exception e) { e.printStackTrace();}
 
+        /*try {
+            stringObservable
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            customNumbers -> {
+                                customNumberList.setCustomNumberList(customNumbers);
+                                mobileNumberAdapter = new MobileNumberAdapter(customNumberList.getCustomNumberList(), getContext(), listMobileNumberFragment);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                recyclerView.setAdapter(mobileNumberAdapter);
+                                mobileNumberAdapter.notifyDataSetChanged();
+                            },
+                            Throwable::printStackTrace,
+                            () -> {}
+                    );
+        } catch (Exception e) { e.printStackTrace();}*/
+
         return customNumberList;
     }
 

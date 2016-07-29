@@ -28,6 +28,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import rx.Observable;
@@ -150,6 +151,7 @@ public class AddNumberFragment extends Fragment {
 
             });
         } catch (Exception e) {}
+
     }
 
 }
