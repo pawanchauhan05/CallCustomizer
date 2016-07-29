@@ -35,6 +35,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+
     productFlavors {
 
         // Build variant to include the Facebook Android SDk
@@ -76,6 +83,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.2.0'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile 'com.mobsandgeeks:android-saripaar:2.0.2'
+    compile 'com.couchbase.lite:couchbase-lite-android:1.0.4'
 }
 
 apply plugin: 'com.google.gms.google-services'

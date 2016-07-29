@@ -97,7 +97,7 @@ public class AddNumberFragment extends Fragment {
                 CustomNumber customNumber = new CustomNumber(userLoggedIn.getEmail(), name, Long.parseLong(number.trim()));
                 sendDataToServer(customNumber);
 
-                //CustomNumber customNumber = new CustomNumber(name, Long.parseLong(number.trim()));
+                //CustomNumber customNqumber = new CustomNumber(name, Long.parseLong(number.trim()));
                 //Utils.storeCustomNumberListToFCMDatabase(customNumber, getContext());
 
             }

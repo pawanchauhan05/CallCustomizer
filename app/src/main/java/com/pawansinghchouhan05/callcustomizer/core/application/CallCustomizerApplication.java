@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
+import com.pawansinghchouhan05.callcustomizer.core.database.CouchBaseDB;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
@@ -51,9 +52,15 @@ public class CallCustomizerApplication extends Application {
     public void onCreate() {
         super.onCreate();
         init();
+        try {
+            CouchBaseDB.getManagerInstance(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         userLoggedInService = CallCustomizerApplication.retrofit.create(UserLoggedInService.class);
         if(!Utils.readPreferences(getApplicationContext(), Constant.LOGIN_STATUS, "").equals(""))
             numbers = getCustomNumber();
+
 
     }
 
