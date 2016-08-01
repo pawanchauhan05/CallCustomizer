@@ -20,7 +20,7 @@
         android:layout_marginTop="10dp">
 
         <EditText
-            android:textSize="18.0sp"
+            android:textSize="@dimen/_16sdp"
             android:gravity="center"
             android:id="@+id/editUserEmail"
             android:layout_width="fill_parent"
@@ -39,7 +39,7 @@
         android:layout_marginTop="10dp">
 
         <EditText
-            android:textSize="18.0sp"
+            android:textSize="@dimen/_16sdp"
             android:gravity="center"
             android:id="@+id/editPassword"
             android:layout_width="fill_parent"
