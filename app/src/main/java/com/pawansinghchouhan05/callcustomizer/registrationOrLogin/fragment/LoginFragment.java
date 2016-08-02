@@ -264,7 +264,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
     }
 
     @Click(R.id.loginButton)
-    void simplelogin() {
+    void simpleLogin() {
         logInvalidator.validate();
     }
 
@@ -289,6 +289,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                         Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_AUTH);
                         Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);
                         Utils.savePreferences(getContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "");
+                        Utils.savePreferences(getContext(), Constant.COMPLETE_SILENT_STATUS, Constant.COMPLETE_SILENT_STATUS);
                         Intent intent = new Intent(getContext(), HomeActivity.class);
                         startActivity(intent);
                         registerTokenToServer(new Token(userLoggedIn.getEmail(), FirebaseInstanceId.getInstance().getToken()));

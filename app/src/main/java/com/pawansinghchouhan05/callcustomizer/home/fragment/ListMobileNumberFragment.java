@@ -169,10 +169,10 @@ public class ListMobileNumberFragment extends Fragment {
     void toggleCompleteSilent() {
         if(completeSilentSwitch.isChecked()) {
             Log.e("check","ON");
-            Utils.savePreferences(getContext(), Constant.COMPLETE_SILENT, Constant.COMPLETE_SILENT_STATUS);
+            Utils.savePreferences(getContext(), Constant.COMPLETE_SILENT, "");
         } else {
             Log.e("check","OFF");
-            Utils.savePreferences(getContext(), Constant.COMPLETE_SILENT, "");
+            Utils.savePreferences(getContext(), Constant.COMPLETE_SILENT, Constant.COMPLETE_SILENT_STATUS);
         }
     }
 }

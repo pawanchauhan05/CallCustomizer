@@ -61,7 +61,7 @@ public class ServiceReceiver extends BroadcastReceiver {
         number = number.replace("+91","");
         System.out.println("Phone Number : " + number);
 
-        if(!Utils.readPreferences(context, Constant.LOGIN_STATUS, "").equals("") && !Utils.readPreferences(context, Constant.COMPLETE_SILENT, "").equals("")) {
+        if(!Utils.readPreferences(context, Constant.LOGIN_STATUS, "").equals("") && Utils.readPreferences(context, Constant.COMPLETE_SILENT, "").equals("")) {
             boolean flag = false;
             for (CustomNumber customNumber: CallCustomizerApplication.numbers) {
                 if(customNumber.equals(new CustomNumber("",Long.parseLong(number)))) {
