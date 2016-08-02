@@ -21,6 +21,7 @@ import org.androidannotations.annotations.EApplication;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -60,8 +61,8 @@ public class CallCustomizerApplication extends Application {
             e.printStackTrace();
         }
         userLoggedInService = CallCustomizerApplication.retrofit.create(UserLoggedInService.class);
-        if(!Utils.readPreferences(getApplicationContext(), Constant.LOGIN_STATUS, "").equals(""))
-            numbers = getCustomNumber();
+        if(!Utils.readPreferences(getApplicationContext(), Constant.LOGIN_STATUS, "").equals("") && !Utils.readPreferences(getApplicationContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "").equals(""))
+            numbers = getCustomNumberFromDB();
 
 
     }
@@ -125,6 +126,19 @@ public class CallCustomizerApplication extends Application {
         } catch (Exception e) { e.printStackTrace();}
 
         return numbers;
+    }
+
+    private List<CustomNumber> getCustomNumberFromDB() {
+        Map<String, Object> map = CouchBaseDB.getDocument();
+        Gson gson = new Gson();
+        List<CustomNumber> numberList= new ArrayList<>();
+        for (String key: map.keySet()) {
+            try {
+                numberList.add(gson.fromJson(map.get(key).toString(), CustomNumber.class));
+            } catch (Exception e) { Log.e("Exp", e.getMessage()); }
+
+        }
+        return numberList;
     }
 
     public static Context getContext() {
