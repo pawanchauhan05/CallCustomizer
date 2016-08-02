@@ -97,4 +97,12 @@ public class CouchBaseDB {
         }
         return false;
     }
+
+    public static void deleteDatabase() {
+        try {
+            getDatabaseInstance(DB_CUSTOM_NUMBER).getDocument(DB_CUSTOM_NUMBER_DOC_KEY).delete();
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -23,6 +23,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.pawansinghchouhan05.callcustomizer.R;
+import com.pawansinghchouhan05.callcustomizer.core.database.CouchBaseDB;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.fragment.AboutFragment;
@@ -149,6 +150,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         Utils.clearPreferences(this);
+        CouchBaseDB.deleteDatabase();
         startActivity(new Intent(this, RegistrationOrLoginActivity_.class));
         finish();
     }

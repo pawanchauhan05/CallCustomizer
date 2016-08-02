@@ -76,7 +76,9 @@ public class ListMobileNumberFragment extends Fragment {
         //customNumberList = Utils.retriveCustomNumberListToFCMDatabase();
         // TODO Optimise this code for list & CB Exist or not
         customNumberList = new CustomNumberList();
-        customNumberList = getCustomNumberFromCouchbase();
+        if(!Utils.readPreferences(getContext(), Constant.CUSTOM_NUMBER_DOC_EXIST,"").equals("")) {
+            customNumberList = getCustomNumberFromCouchbase();
+        }
         listMobileNumberFragment = this;
         try {
             mobileNumberAdapter = new MobileNumberAdapter(customNumberList.getCustomNumberList(), getContext(), this);
@@ -87,6 +89,7 @@ public class ListMobileNumberFragment extends Fragment {
         } catch (NullPointerException e) {
             PopUpMsg.getInstance().generateToastMsg(getContext(), "Please first add Number!");
         }
+
 
     }
 
@@ -154,11 +157,6 @@ public class ListMobileNumberFragment extends Fragment {
 
         }
 
-        /*for (Object object: map.values()) {
-            try {
-                numberList.add(gson.fromJson(object.toString(), CustomNumber.class));
-            } catch (Exception e) { Log.e("Exp", e.getMessage()); }
-        }*/
         customNumberList.setCustomNumberList(numberList);
         mobileNumberAdapter = new MobileNumberAdapter(customNumberList.getCustomNumberList(), getContext(), listMobileNumberFragment);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
