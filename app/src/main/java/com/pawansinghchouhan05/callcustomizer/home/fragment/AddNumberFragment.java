@@ -14,7 +14,9 @@ import android.widget.EditText;
 import com.google.gson.Gson;
 import com.pawansinghchouhan05.callcustomizer.R;
 import com.pawansinghchouhan05.callcustomizer.core.application.CallCustomizerApplication;
+import com.pawansinghchouhan05.callcustomizer.core.database.CouchBaseDB;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
+import com.pawansinghchouhan05.callcustomizer.core.utils.PopUpMsg;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
 import com.pawansinghchouhan05.callcustomizer.home.services.UserLoggedInService;
@@ -96,7 +98,10 @@ public class AddNumberFragment extends Fragment {
                 Log.e("number", "ZZZ number : " + number + " , name : " + name);
                 UserLoggedIn userLoggedIn = new Gson().fromJson(Utils.readPreferences(getContext(), Constant.LOGGED_IN_USER, ""), UserLoggedIn.class);
                 CustomNumber customNumber = new CustomNumber(userLoggedIn.getEmail(), name, Long.parseLong(number.trim()));
-                sendDataToServer(customNumber);
+
+                sendDataToCouchBase(customNumber);
+
+                //sendDataToServer(customNumber);
 
                 //CustomNumber customNqumber = new CustomNumber(name, Long.parseLong(number.trim()));
                 //Utils.storeCustomNumberListToFCMDatabase(customNumber, getContext());
@@ -151,6 +156,23 @@ public class AddNumberFragment extends Fragment {
 
             });
         } catch (Exception e) {}
+
+    }
+
+    void sendDataToCouchBase(CustomNumber customNumber) {
+        boolean flag = false;
+        if(Utils.readPreferences(getContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "").equals("")) {
+            CouchBaseDB.createCustomNumberDocument(customNumber);
+            PopUpMsg.getInstance().generateToastMsg(getContext(), "Number added successfully!");
+            Utils.savePreferences(getContext(),Constant.CUSTOM_NUMBER_DOC_EXIST, Constant.CUSTOM_NUMBER_DOC_EXIST);
+        } else {
+            flag = CouchBaseDB.isCustomNumberExist(customNumber);
+            if(flag == true) {
+                PopUpMsg.getInstance().generateToastMsg(getContext(), "Number already exist!");
+            } else {
+                CouchBaseDB.updateDocument(customNumber);
+                PopUpMsg.getInstance().generateToastMsg(getContext(), "Number added successfully!"); }
+        }
 
     }
 

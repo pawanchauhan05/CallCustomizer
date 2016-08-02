@@ -98,7 +98,7 @@ public class CallCustomizerApplication extends Application {
     }
 
     private List<CustomNumber> getCustomNumber() {
-        UserLoggedIn userLoggedIn = new Gson().fromJson(Utils.readPreferences(getApplicationContext(), Constant.LOGGED_IN_USER, ""), UserLoggedIn.class);
+            UserLoggedIn userLoggedIn = new Gson().fromJson(Utils.readPreferences(getApplicationContext(), Constant.LOGGED_IN_USER, ""), UserLoggedIn.class);
 
         Observable<List<CustomNumber>> stringObservable = userLoggedInService.getNumber(new Email(userLoggedIn.getEmail()));
         try {

@@ -23,9 +23,12 @@ public class Constant {
     // Error's
     public static final String USER_DOES_NOT_EXIST = "user does not exist";
 
+    // Couchbase Database
+    public static final String CUSTOM_NUMBER_DOC_EXIST = "CustomNumberDocExist";
+
 
     // API's
-    public static final String BASE_URL = "http://192.168.1.11/CallCustomizer_web/index.php/";
+    public static final String BASE_URL = "http://192.168.1.5/CallCustomizer_web/index.php/";
     public static final String LOG_IN = "index/login-user-mobile";
     public static final String REGISTER_USER = "index/register-user-mobile";
     public static final String REGISTER_TOKEN = "index/register-token-mobile";

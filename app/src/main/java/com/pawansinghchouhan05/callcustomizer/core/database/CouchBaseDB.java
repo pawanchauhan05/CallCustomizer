@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,11 +56,45 @@ public class CouchBaseDB {
         }
     }
 
-    public static Map<String,Object> getDocument(Database database, String documentID) {
-        Document retrievedDocument = database.getDocument(documentID);
+    public static Map<String,Object> getDocument() {
+        Document retrievedDocument = null;
+        try {
+            retrievedDocument = getDatabaseInstance(DB_CUSTOM_NUMBER).getDocument(DB_CUSTOM_NUMBER_DOC_KEY);
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
         Map<String, Object> map = new HashMap<String, Object>();
         map =  retrievedDocument.getProperties();
         Log.e("Document",map.toString());
         return map;
+    }
+
+    public static void updateDocument(CustomNumber customNumber) {
+        try {
+            Document document = getDatabaseInstance(DB_CUSTOM_NUMBER).getDocument(DB_CUSTOM_NUMBER_DOC_KEY);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.putAll(document.getProperties());
+            map.put(String.valueOf(new Date().getTime()),new Gson().toJson(customNumber));
+            document.putProperties(map);
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean isCustomNumberExist(CustomNumber customNumber) {
+        boolean flag = false;
+        Gson gson = new Gson();
+        Map<String, Object> map = getDocument();
+        for (String key: map.keySet()) {
+            try {
+                CustomNumber number = gson.fromJson(map.get(key).toString(), CustomNumber.class);
+                if (number != null && number.equals(customNumber)) {
+                    return flag = true;
+                }
+            } catch (Exception e) {
+            }
+
+        }
+        return false;
     }
 }

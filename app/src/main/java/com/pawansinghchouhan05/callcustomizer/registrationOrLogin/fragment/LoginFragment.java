@@ -288,6 +288,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                         Utils.savePreferences(getContext(), Constant.LOGGED_IN_USER, new Gson().toJson(userLoggedIn));
                         Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_AUTH);
                         Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);
+                        Utils.savePreferences(getContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "");
                         Intent intent = new Intent(getContext(), HomeActivity.class);
                         startActivity(intent);
                         registerTokenToServer(new Token(userLoggedIn.getEmail(), FirebaseInstanceId.getInstance().getToken()));

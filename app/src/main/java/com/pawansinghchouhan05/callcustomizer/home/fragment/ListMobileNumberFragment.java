@@ -17,12 +17,14 @@ import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.couchbase.lite.internal.InterfaceAudience;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.pawansinghchouhan05.callcustomizer.R;
 import com.pawansinghchouhan05.callcustomizer.core.application.CallCustomizerApplication;
+import com.pawansinghchouhan05.callcustomizer.core.database.CouchBaseDB;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
 import com.pawansinghchouhan05.callcustomizer.core.utils.PopUpMsg;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
@@ -43,6 +45,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -71,9 +74,9 @@ public class ListMobileNumberFragment extends Fragment {
     @AfterViews()
     void init() {
         //customNumberList = Utils.retriveCustomNumberListToFCMDatabase();
-        // TODO Optimise this code for list
+        // TODO Optimise this code for list & CB Exist or not
         customNumberList = new CustomNumberList();
-        customNumberList = getCustomNumber();
+        customNumberList = getCustomNumberFromCouchbase();
         listMobileNumberFragment = this;
         try {
             mobileNumberAdapter = new MobileNumberAdapter(customNumberList.getCustomNumberList(), getContext(), this);
@@ -137,23 +140,30 @@ public class ListMobileNumberFragment extends Fragment {
             });
         } catch (Exception e) { e.printStackTrace();}
 
-        /*try {
-            stringObservable
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            customNumbers -> {
-                                customNumberList.setCustomNumberList(customNumbers);
-                                mobileNumberAdapter = new MobileNumberAdapter(customNumberList.getCustomNumberList(), getContext(), listMobileNumberFragment);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                                recyclerView.setAdapter(mobileNumberAdapter);
-                                mobileNumberAdapter.notifyDataSetChanged();
-                            },
-                            Throwable::printStackTrace,
-                            () -> {}
-                    );
-        } catch (Exception e) { e.printStackTrace();}*/
+        return customNumberList;
+    }
 
+    private CustomNumberList getCustomNumberFromCouchbase() {
+        Map<String, Object> map = CouchBaseDB.getDocument();
+        Gson gson = new Gson();
+        List<CustomNumber> numberList= new ArrayList<>();
+        for (String key: map.keySet()) {
+            try {
+                numberList.add(gson.fromJson(map.get(key).toString(), CustomNumber.class));
+            } catch (Exception e) { Log.e("Exp", e.getMessage()); }
+
+        }
+
+        /*for (Object object: map.values()) {
+            try {
+                numberList.add(gson.fromJson(object.toString(), CustomNumber.class));
+            } catch (Exception e) { Log.e("Exp", e.getMessage()); }
+        }*/
+        customNumberList.setCustomNumberList(numberList);
+        mobileNumberAdapter = new MobileNumberAdapter(customNumberList.getCustomNumberList(), getContext(), listMobileNumberFragment);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(mobileNumberAdapter);
+        mobileNumberAdapter.notifyDataSetChanged();
         return customNumberList;
     }
 
