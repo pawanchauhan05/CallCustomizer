@@ -46,11 +46,13 @@ public class CallCustomizerApplication extends Application {
     public static Retrofit retrofit;
     private UserLoggedInService userLoggedInService;
     public static List<CustomNumber> numbers = new ArrayList<>();
+    private static Context context;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
         init();
         try {
             CouchBaseDB.getManagerInstance(getApplicationContext());
@@ -123,5 +125,9 @@ public class CallCustomizerApplication extends Application {
         } catch (Exception e) { e.printStackTrace();}
 
         return numbers;
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }

@@ -9,6 +9,9 @@ import com.couchbase.lite.Document;
 import com.couchbase.lite.Manager;
 import com.couchbase.lite.android.AndroidContext;
 import com.google.gson.Gson;
+import com.pawansinghchouhan05.callcustomizer.core.application.CallCustomizerApplication;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
+import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
 
 import java.io.IOException;
@@ -100,7 +103,9 @@ public class CouchBaseDB {
 
     public static void deleteDatabase() {
         try {
-            getDatabaseInstance(DB_CUSTOM_NUMBER).getDocument(DB_CUSTOM_NUMBER_DOC_KEY).delete();
+            if(!Utils.readPreferences(CallCustomizerApplication.getContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "").equals("")) {
+                getDatabaseInstance(DB_CUSTOM_NUMBER).getDocument(DB_CUSTOM_NUMBER_DOC_KEY).delete();
+            }
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }
