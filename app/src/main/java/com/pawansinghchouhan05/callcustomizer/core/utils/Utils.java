@@ -2,6 +2,8 @@ package com.pawansinghchouhan05.callcustomizer.core.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -22,6 +24,9 @@ import java.util.UUID;
 public class Utils {
 
     public static CustomNumberList customNumberList ;
+    public static int TYPE_WIFI = 1;
+    public static int TYPE_MOBILE = 2;
+    public static int TYPE_NOT_CONNECTED = 0;
 
     static  {
         customNumberList = new CustomNumberList();
@@ -86,4 +91,34 @@ public class Utils {
 
         return customNumberList;
     }
+
+    public static int getConnectivityStatus(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (null != activeNetwork) {
+            if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI)
+                return TYPE_WIFI;
+
+            if(activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
+                return TYPE_MOBILE;
+        }
+        return TYPE_NOT_CONNECTED;
+    }
+
+    public static String getConnectivityStatusString(Context context) {
+        int conn = getConnectivityStatus(context);
+        String status = null;
+        if (conn == TYPE_WIFI) {
+            status = Constant.WIFI_ENABLED;
+        } else if (conn == TYPE_MOBILE) {
+            status = Constant.MOBILE_DATA_ENABLED;
+        } else if (conn == TYPE_NOT_CONNECTED) {
+            status = Constant.NOT_CONNECTED_TO_INTERNET;
+        }
+        return status;
+    }
+
+
 }

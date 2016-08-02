@@ -15,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
@@ -22,6 +24,7 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
 import com.pawansinghchouhan05.callcustomizer.R;
 import com.pawansinghchouhan05.callcustomizer.core.database.CouchBaseDB;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
@@ -33,11 +36,14 @@ import com.pawansinghchouhan05.callcustomizer.home.fragment.FaqFragment_;
 import com.pawansinghchouhan05.callcustomizer.home.fragment.ListMobileNumberFragment_;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.activity.RegistrationOrLoginActivity_;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.fragment.LoginFragment_;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoggedIn;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
 
     private FirebaseAuth mFirebaseAuth;
     private GoogleApiClient mGoogleApiClient;
+    private ImageView profilePic;
+    private TextView userName, userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        profilePic = (ImageView) ((NavigationView) drawer.findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.imageViewUser);
+        userName = (TextView) ((NavigationView) drawer.findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.textViewName);
+        userEmail = (TextView) ((NavigationView) drawer.findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.textViewEmail);
+        userEmail.setText(new Gson().fromJson(Utils.readPreferences(getApplicationContext(), Constant.LOGGED_IN_USER, ""), UserLoggedIn.class).getEmail() );
     }
 
     @Override

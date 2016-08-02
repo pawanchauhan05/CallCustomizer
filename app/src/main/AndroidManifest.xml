@@ -26,6 +26,15 @@
             </intent-filter>
         </activity>
 
+        <receiver
+            android:name=".core.receiver.NetworkChangeReceiver"
+            android:label="NetworkChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
         <receiver android:name=".core.receiver.ServiceReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />

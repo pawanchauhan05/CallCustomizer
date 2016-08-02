@@ -20,6 +20,11 @@ public class Constant {
     public static final String COMPLETE_SILENT = "CompleteSilent";
     public static final String COMPLETE_SILENT_STATUS = "TRUE"; // ON
 
+    // Connectivity
+    public static final String WIFI_ENABLED = "WifiEnabled";
+    public static final String MOBILE_DATA_ENABLED = "MobileDataEnabled";
+    public static final String NOT_CONNECTED_TO_INTERNET = "NotConnectedToInternet";
+
     // Error's
     public static final String USER_DOES_NOT_EXIST = "user does not exist";
 
