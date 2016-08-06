@@ -42,6 +42,7 @@ public class Constant {
     public static final String DELETE_CUSTOM_NUMBER = "index/delete-custom-number-mobile";
     public static final String UPDATE_CUSTOM_NUMBER = "index/update-custom-number-mobile";
     public static final String GET_CUSTOM_NUMBER = "index/get-custom-number-mobile";
+    public static final String SYNC_DATA_TO_SERVER = "index/sync-data-from-mobile";
 
 
 

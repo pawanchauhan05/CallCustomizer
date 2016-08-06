@@ -6,6 +6,7 @@ package com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models;
 public class UserLoggedIn {
     String name;
     String email;
+    int numberStatus;
 
     public UserLoggedIn() {
     }
@@ -13,6 +14,12 @@ public class UserLoggedIn {
     public UserLoggedIn(String name, String email) {
         this.name = name;
         this.email = email;
+    }
+
+    public UserLoggedIn(String name, String email, int numberStatus) {
+        this.name = name;
+        this.email = email;
+        this.numberStatus = numberStatus;
     }
 
     public String getName() {
@@ -29,6 +36,14 @@ public class UserLoggedIn {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getNumberStatus() {
+        return numberStatus;
+    }
+
+    public void setNumberStatus(int numberStatus) {
+        this.numberStatus = numberStatus;
     }
 
     @Override

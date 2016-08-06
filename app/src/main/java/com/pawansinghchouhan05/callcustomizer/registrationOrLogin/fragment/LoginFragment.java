@@ -42,10 +42,12 @@ import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.pawansinghchouhan05.callcustomizer.R;
 import com.pawansinghchouhan05.callcustomizer.core.application.CallCustomizerApplication;
+import com.pawansinghchouhan05.callcustomizer.core.database.CouchBaseDB;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
 import com.pawansinghchouhan05.callcustomizer.core.utils.PopUpMsg;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity;
+import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
 import com.pawansinghchouhan05.callcustomizer.home.models.Token;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.ServerStatus;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoggedIn;
@@ -290,9 +292,14 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                         Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);
                         Utils.savePreferences(getContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "");
                         Utils.savePreferences(getContext(), Constant.COMPLETE_SILENT_STATUS, Constant.COMPLETE_SILENT_STATUS);
+
+                        if(userLoggedIn.getNumberStatus() == 1) {
+                            callCustomizerApplication.getCustomNumber();
+                        }
                         Intent intent = new Intent(getContext(), HomeActivity.class);
                         startActivity(intent);
                         registerTokenToServer(new Token(userLoggedIn.getEmail(), FirebaseInstanceId.getInstance().getToken()));
+                        sendToCouchbaseDatabase();
                         getActivity().finish();
                     } else {
                         PopUpMsg.getInstance().generateToastMsg(getContext(), Constant.USER_DOES_NOT_EXIST);
@@ -328,6 +335,26 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         }
     }
 
+    /**
+     * to store server data to CBLite database
+     */
+    private void sendToCouchbaseDatabase() {
+        boolean flag = false;
+        for (CustomNumber customNumber: CallCustomizerApplication.numbers) {
+            if(Utils.readPreferences(getContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "").equals("")) {
+                CouchBaseDB.createCustomNumberDocument(customNumber);
+                PopUpMsg.getInstance().generateToastMsg(getContext(), "Number added successfully!");
+                Utils.savePreferences(getContext(),Constant.CUSTOM_NUMBER_DOC_EXIST, Constant.CUSTOM_NUMBER_DOC_EXIST);
+            } else {
+                flag = CouchBaseDB.isCustomNumberExist(customNumber);
+                if(flag == true) {
+                    PopUpMsg.getInstance().generateToastMsg(getContext(), "Number already exist!");
+                } else {
+                    CouchBaseDB.updateDocument(customNumber);
+                    PopUpMsg.getInstance().generateToastMsg(getContext(), "Number added successfully!"); }
+            }
+        }
 
+    }
 
 }

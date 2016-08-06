@@ -61,7 +61,7 @@ public class ServiceReceiver extends BroadcastReceiver {
         number = number.replace("+91","");
         System.out.println("Phone Number : " + number);
 
-        if(!Utils.readPreferences(context, Constant.LOGIN_STATUS, "").equals("") && Utils.readPreferences(context, Constant.COMPLETE_SILENT, "").equals("")) {
+        if((!Utils.readPreferences(context, Constant.LOGIN_STATUS, "").equals("")) && Utils.readPreferences(context, Constant.COMPLETE_SILENT, "").equals("")) {
             boolean flag = false;
             for (CustomNumber customNumber: CallCustomizerApplication.numbers) {
                 if(customNumber.equals(new CustomNumber("",Long.parseLong(number)))) {
@@ -98,7 +98,7 @@ public class ServiceReceiver extends BroadcastReceiver {
                     RingtoneManager mgr = new RingtoneManager(context);
                     RingtoneManager.setActualDefaultRingtoneUri(context,
                             RingtoneManager.TYPE_RINGTONE,
-                            mgr.getRingtoneUri(4));
+                            mgr.getRingtoneUri(3));
                     break;
 
                 case TelephonyManager.CALL_STATE_OFFHOOK:
