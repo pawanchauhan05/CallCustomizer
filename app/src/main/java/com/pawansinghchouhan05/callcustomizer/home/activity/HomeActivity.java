@@ -150,6 +150,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    /**
+     * to logout user
+     */
     private void logout() {
         String loginType = Utils.readPreferences(this, Constant.LOGIN_TYPE, "");
         if(loginType.equals(Constant.LOGIN_TYPE_GOOGLE)) {

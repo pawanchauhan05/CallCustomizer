@@ -67,6 +67,10 @@ public class CallCustomizerApplication extends Application {
 
     }
 
+    /**
+     * to initialize retrofit and other objects
+     *
+     */
     private void init() {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -100,6 +104,11 @@ public class CallCustomizerApplication extends Application {
         Utils.retriveCustomNumberListToFCMDatabase();
     }
 
+    /**
+     * to get custom number list from server
+     *
+     * @return
+     */
     public List<CustomNumber> getCustomNumber() {
         UserLoggedIn userLoggedIn = new Gson().fromJson(Utils.readPreferences(getApplicationContext(), Constant.LOGGED_IN_USER, ""), UserLoggedIn.class);
 
@@ -128,6 +137,11 @@ public class CallCustomizerApplication extends Application {
         return numbers;
     }
 
+    /**
+     * to get custom number list from Couchbase database
+     *
+     * @return
+     */
     private List<CustomNumber> getCustomNumberFromDB() {
         Map<String, Object> map = CouchBaseDB.getDocument();
         Gson gson = new Gson();
@@ -141,6 +155,11 @@ public class CallCustomizerApplication extends Application {
         return numberList;
     }
 
+    /**
+     * to get context
+     *
+     * @return
+     */
     public static Context getContext() {
         return context;
     }

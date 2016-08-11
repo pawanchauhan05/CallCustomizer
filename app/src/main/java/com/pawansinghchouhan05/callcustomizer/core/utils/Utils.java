@@ -33,11 +33,26 @@ public class Utils {
         Log.e("init","static");
     }
 
+    /**
+     * to get object from Shared Preferences
+     *
+     * @param context
+     * @param key
+     * @param defaultValue
+     * @return
+     */
     public static String readPreferences(Context context, String key, String defaultValue) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getString(key, defaultValue);
     }
 
+    /**
+     * to save object to Shared Preferences
+     *
+     * @param context
+     * @param key
+     * @param value
+     */
     public static void savePreferences(Context context, String key, String value) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
@@ -46,6 +61,11 @@ public class Utils {
         UUID.randomUUID().toString();
     }
 
+    /**
+     * to clear data from Shared Preferences
+     *
+     * @param context
+     */
     public static void clearPreferences(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();

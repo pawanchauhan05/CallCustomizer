@@ -111,6 +111,10 @@ public class AddNumberFragment extends Fragment {
     }
 
 
+    /**
+     * to add number manually
+     *
+     */
     void addNumberManually() {
         CustomNumber customNumber = new CustomNumber(editTextName.getText().toString().trim(), Long.parseLong(editTextNumber.getText().toString().trim()));
         Utils.storeCustomNumberListToFCMDatabase(customNumber, getContext());
@@ -159,6 +163,11 @@ public class AddNumberFragment extends Fragment {
 
     }
 
+    /**
+     * to save custom number to couchbase database
+     *
+     * @param customNumber
+     */
     void sendDataToCouchBase(CustomNumber customNumber) {
         boolean flag = false;
         if(Utils.readPreferences(getContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "").equals("")) {

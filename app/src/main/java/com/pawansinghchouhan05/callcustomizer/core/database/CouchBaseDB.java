@@ -29,7 +29,13 @@ public class CouchBaseDB {
     public static final String DB_CUSTOM_NUMBER = "customnumber";
     public static final String DB_CUSTOM_NUMBER_DOC_KEY = "customnumber";
 
-
+    /**
+     * to get CBLite database instance
+     *
+     * @param dbName
+     * @return
+     * @throws CouchbaseLiteException
+     */
     public static Database getDatabaseInstance(String dbName) throws CouchbaseLiteException {
         if (dbName.equals(DB_CUSTOM_NUMBER)) {
             if ((database == null) & (manager != null)) {
@@ -41,6 +47,13 @@ public class CouchBaseDB {
         return database;
     }
 
+    /**
+     * to get CBLite database manager instance
+     *
+     * @param context
+     * @return
+     * @throws IOException
+     */
     public static Manager getManagerInstance(Context context) throws IOException {
         if (manager == null) {
             manager = new Manager(new AndroidContext(context), Manager.DEFAULT_OPTIONS);
@@ -48,6 +61,11 @@ public class CouchBaseDB {
         return manager;
     }
 
+    /**
+     * to create custom number document
+     *
+     * @param customNumber
+     */
     public static void createCustomNumberDocument(CustomNumber customNumber) {
         try {
             Document document = getDatabaseInstance(DB_CUSTOM_NUMBER).getDocument(DB_CUSTOM_NUMBER_DOC_KEY);
@@ -59,6 +77,11 @@ public class CouchBaseDB {
         }
     }
 
+    /**
+     * to get map from CBLite database
+     *
+     * @return
+     */
     public static Map<String,Object> getDocument() {
         Document retrievedDocument = null;
         try {
@@ -72,6 +95,11 @@ public class CouchBaseDB {
         return map;
     }
 
+    /**
+     * to update CBLite document
+     *
+     * @param customNumber
+     */
     public static void updateDocument(CustomNumber customNumber) {
         try {
             Document document = getDatabaseInstance(DB_CUSTOM_NUMBER).getDocument(DB_CUSTOM_NUMBER_DOC_KEY);
@@ -84,6 +112,12 @@ public class CouchBaseDB {
         }
     }
 
+    /**
+     * to check number is already exist or not in CBLite database
+     *
+     * @param customNumber
+     * @return
+     */
     public static boolean isCustomNumberExist(CustomNumber customNumber) {
         boolean flag = false;
         Gson gson = new Gson();
@@ -101,6 +135,10 @@ public class CouchBaseDB {
         return false;
     }
 
+    /**
+     * to delete CBLite database
+     *
+     */
     public static void deleteDatabase() {
         try {
             if(!Utils.readPreferences(CallCustomizerApplication.getContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "").equals("")) {

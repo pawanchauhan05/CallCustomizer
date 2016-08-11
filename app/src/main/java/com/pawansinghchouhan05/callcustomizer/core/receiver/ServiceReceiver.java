@@ -95,15 +95,15 @@ public class ServiceReceiver extends BroadcastReceiver {
                     //RingtoneManager.setActualDefaultRingtoneUri(MainActivity.this,RingtoneManager.TYPE_RINGTONE,mUri);
 
                     // TODO Add custom ringtone which ring on incoming call
-                    RingtoneManager mgr = new RingtoneManager(context);
+                    /*RingtoneManager mgr = new RingtoneManager(context);
                     RingtoneManager.setActualDefaultRingtoneUri(context,
                             RingtoneManager.TYPE_RINGTONE,
-                            mgr.getRingtoneUri(3));
+                            mgr.getRingtoneUri(3));*/
                     break;
 
                 case TelephonyManager.CALL_STATE_OFFHOOK:
                     System.out.println("CALL_STATE_OFFHOOK...........");
-                    Log.e("OFFHOOK","CALL_STATE_OFFHOOK...........");
+                    Log.e("xkill","CALL_STATE_OFFHOOK...........");
                     break;
 
                 case TelephonyManager.CALL_STATE_IDLE:

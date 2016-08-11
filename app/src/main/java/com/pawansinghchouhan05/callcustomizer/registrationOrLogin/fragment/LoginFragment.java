@@ -270,6 +270,10 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         logInvalidator.validate();
     }
 
+    /**
+     * to simple login
+     *
+     */
     private void login() {
         Observable<UserLoggedIn> userLoggedInObservable = userLoginService.signIn(new UserLoginForm(editUserEmail.getText().toString().trim(),editPassword.getText().toString().trim()));
         try {
@@ -311,6 +315,11 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
     }
 
+    /**
+     * to register token to server
+     *
+     * @param token
+     */
     private void registerTokenToServer(Token token) {
         Observable<ServerStatus> stringObservable = userLoginService.registerToken(token);
         try {
