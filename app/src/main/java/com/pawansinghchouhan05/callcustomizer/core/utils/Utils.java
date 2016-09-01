@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -14,6 +15,9 @@ import com.pawansinghchouhan05.callcustomizer.core.application.CallCustomizerApp
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumberList;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -138,6 +142,41 @@ public class Utils {
             status = Constant.NOT_CONNECTED_TO_INTERNET;
         }
         return status;
+    }
+
+    /**
+     * to check internet connectivity
+     *
+     */
+    public static class InternetCheckTask extends AsyncTask<Context, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Context... params) {
+            final Context context = params[0].getApplicationContext();
+            return hasInternetAccess(context);
+        }
+
+        private boolean hasInternetAccess(Context context) {
+            if (getConnectivityStatusString(context).equals(Constant.WIFI_ENABLED) || getConnectivityStatusString(context).equals(Constant.MOBILE_DATA_ENABLED)) {
+                try {
+                    HttpURLConnection urlc = (HttpURLConnection)
+                            (new URL("http://clients3.google.com/generate_204")
+                                    .openConnection());
+                    urlc.setRequestProperty("User-Agent", "Android");
+                    urlc.setRequestProperty("Connection", "close");
+                    urlc.setConnectTimeout(1500);
+                    urlc.connect();
+                    Log.e("TAG", "network available!");
+                    return (urlc.getResponseCode() == 204 &&
+                            urlc.getContentLength() == 0);
+                } catch (IOException e) {
+                    Log.e("TAG", "Error checking internet connection", e);
+                }
+            } else {
+                Log.d("TAG", "No network available!");
+            }
+            return false;
+        }
     }
 
 

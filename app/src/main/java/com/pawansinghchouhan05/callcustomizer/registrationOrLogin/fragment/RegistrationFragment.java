@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -23,6 +24,7 @@ import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
 import com.pawansinghchouhan05.callcustomizer.core.utils.PopUpMsg;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.ServerStatus;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoggedIn;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoginForm;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserRegistrationForm;
@@ -36,6 +38,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -107,9 +110,13 @@ public class RegistrationFragment extends Fragment {
 
     void register() {
 
-        Observable<String> registerUser = userLoginService.registerUser(new UserRegistrationForm("sunny", "p@e.com", "12345", Constant.LOGIN_TYPE_AUTH));
+        Observable<ServerStatus> registerUser = userLoginService.registerUser(new UserRegistrationForm(editTextName.getText().toString().trim(), editTextEmail.getText().toString().trim(), editTextPassword.getText().toString().trim(), Constant.LOGIN_TYPE_AUTH));
         try {
-            registerUser.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<String>() {
+            registerUser
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<ServerStatus>() {
+                        
                 @Override
                 public void onCompleted() {
                     Log.e("Complete","C");
@@ -117,21 +124,27 @@ public class RegistrationFragment extends Fragment {
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e("Error",e.getMessage());
+                    if (e != null) {
+                        ServerStatus serverStatus = null;
+                        try {
+                            if (((HttpException) e).code() == 401) {
+                                serverStatus = new Gson().fromJson(((HttpException) e).response().errorBody().string().toString(), ServerStatus.class);
+                                PopUpMsg.getInstance().generateToastMsg(getContext(), serverStatus.getStatus());
+                            }
+                        } catch (Exception e1) {
+                        }
+                    }
                 }
 
                 @Override
-                public void onNext(String status) {
-                    Log.e("ServerStatus", status);
-                    /*if(!userLoggedIn.getEmail().equals(Constant.USER_DOES_NOT_EXIST)) {
-                        Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_AUTH);
-                        Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);
-                        Intent intent = new Intent(getContext(), HomeActivity.class);
-                        startActivity(intent);
-                        getActivity().finish();
-                    } else {
-                        PopUpMsg.getInstance().generateToastMsg(getContext(), Constant.USER_DOES_NOT_EXIST);
-                    }*/
+                public void onNext(ServerStatus serverStatus) {
+                    Log.e("onNext",serverStatus.toString());
+                    PopUpMsg.getInstance().generateToastMsg(getContext(), serverStatus.getStatus());
+                    getActivity()
+                            .getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.registrationOrLoginContainer, new LoginFragment_())
+                            .commit();
                 }
             });
         } catch (Exception e) {

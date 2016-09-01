@@ -64,6 +64,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.Arrays;
 import java.util.List;
 
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -103,14 +104,14 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         logInvalidator = new Validator(this);
         FacebookSdk.sdkInitialize(getContext());
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        /*GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .enableAutoManage(getActivity() *//* FragmentActivity *//*, this *//* OnConnectionFailedListener *//*)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+                .build();*/
 
         // Initialize FirebaseAuth
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -177,8 +178,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
     }
 
     private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        /*Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);*/
     }
 
 
@@ -234,7 +235,6 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
     @Click(R.id.textViewForgotPassword)
     void forgotPassword() {
         final Dialog dialog = new Dialog(getContext());
-
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_box_for_forgot_password);
         dialog.show();
@@ -285,29 +285,29 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e("Error",e.getMessage());
+                    if (e != null) {
+                        ServerStatus serverStatus = null;
+                        try {
+                            if (((HttpException) e).code() == 401) {
+                                serverStatus = new Gson().fromJson(((HttpException) e).response().errorBody().string().toString(), ServerStatus.class);
+                                PopUpMsg.getInstance().generateToastMsg(getContext(), serverStatus.getStatus());
+                            }
+                        } catch (Exception e1) {
+                        }
+                    }
                 }
 
                 @Override
                 public void onNext(UserLoggedIn userLoggedIn) {
-                    if(!userLoggedIn.getEmail().equals(Constant.USER_DOES_NOT_EXIST)) {
-                        Utils.savePreferences(getContext(), Constant.LOGGED_IN_USER, new Gson().toJson(userLoggedIn));
-                        Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_AUTH);
-                        Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);
-                        Utils.savePreferences(getContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "");
-                        Utils.savePreferences(getContext(), Constant.COMPLETE_SILENT_STATUS, Constant.COMPLETE_SILENT_STATUS);
-
-                        if(userLoggedIn.getNumberStatus() == 1) {
-                            callCustomizerApplication.getCustomNumber();
-                        }
-                        Intent intent = new Intent(getContext(), HomeActivity.class);
-                        startActivity(intent);
-                        registerTokenToServer(new Token(userLoggedIn.getEmail(), FirebaseInstanceId.getInstance().getToken()));
-                        sendToCouchbaseDatabase();
-                        getActivity().finish();
-                    } else {
-                        PopUpMsg.getInstance().generateToastMsg(getContext(), Constant.USER_DOES_NOT_EXIST);
+                    initSharedPref(userLoggedIn);
+                    if(userLoggedIn.getNumberStatus() == 1) {
+                        callCustomizerApplication.getCustomNumber();
                     }
+                    Intent intent = new Intent(getContext(), HomeActivity.class);
+                    startActivity(intent);
+                    registerTokenToServer(new Token(userLoggedIn.getEmail(), FirebaseInstanceId.getInstance().getToken()));
+                    sendToCouchbaseDatabase();
+                    getActivity().finish();
                 }
             });
         } catch (Exception e) {
@@ -356,7 +356,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                 Utils.savePreferences(getContext(),Constant.CUSTOM_NUMBER_DOC_EXIST, Constant.CUSTOM_NUMBER_DOC_EXIST);
             } else {
                 flag = CouchBaseDB.isCustomNumberExist(customNumber);
-                if(flag == true) {
+                if(flag) {
                     PopUpMsg.getInstance().generateToastMsg(getContext(), "Number already exist!");
                 } else {
                     CouchBaseDB.updateDocument(customNumber);
@@ -364,6 +364,14 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
             }
         }
 
+    }
+
+    private void initSharedPref(UserLoggedIn userLoggedIn) {
+        Utils.savePreferences(getContext(), Constant.LOGGED_IN_USER, new Gson().toJson(userLoggedIn));
+        Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_AUTH);
+        Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);
+        Utils.savePreferences(getContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "");
+        Utils.savePreferences(getContext(), Constant.COMPLETE_SILENT_STATUS, Constant.COMPLETE_SILENT_STATUS);
     }
 
 }

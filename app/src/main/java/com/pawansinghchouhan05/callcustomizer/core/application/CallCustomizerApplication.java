@@ -1,13 +1,18 @@
 package com.pawansinghchouhan05.callcustomizer.core.application;
 
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.pawansinghchouhan05.callcustomizer.core.database.CouchBaseDB;
+import com.pawansinghchouhan05.callcustomizer.core.receiver.AlarmReceiver;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Constant;
 import com.pawansinghchouhan05.callcustomizer.core.utils.Utils;
 import com.pawansinghchouhan05.callcustomizer.home.models.CustomNumber;
@@ -48,6 +53,8 @@ public class CallCustomizerApplication extends Application {
     private UserLoggedInService userLoggedInService;
     public static List<CustomNumber> numbers = new ArrayList<>();
     private static Context context;
+    private PendingIntent pendingIntent;
+    private AlarmManager alarmManager;
 
 
     @Override
@@ -77,22 +84,6 @@ public class CallCustomizerApplication extends Application {
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request original = chain.request();
-                        Response response = chain.proceed(chain.request());
-                        Log.e("Retrofit@Response", response.body().string());
-
-                        String token = Utils.readPreferences(getApplicationContext(), "token", "");
-                        if (!token.isEmpty())
-                            return chain.proceed(original.newBuilder()
-                                    .header("X-Auth-Token", token)
-                                    .method(original.method(), original.body())
-                                    .build());
-                        return chain.proceed(original);
-                    }
-                })
                 .build();
 
         retrofit = new Retrofit.Builder()
@@ -102,6 +93,16 @@ public class CallCustomizerApplication extends Application {
                 .client(okHttpClient)
                 .build();
         Utils.retriveCustomNumberListToFCMDatabase();
+
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+        // TODO set alarm in optimise way
+        //alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        //int interval = 10000; // 10 seconds
+
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+        //Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
     }
 
     /**

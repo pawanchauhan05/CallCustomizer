@@ -20,7 +20,7 @@ public interface UserLoginService {
     Observable<UserLoggedIn> signIn(@Body UserLoginForm userLoginForm);
 
     @POST(Constant.REGISTER_USER)
-    Observable<String> registerUser(@Body UserRegistrationForm registrationForm);
+    Observable<ServerStatus> registerUser(@Body UserRegistrationForm registrationForm);
 
     @POST(Constant.REGISTER_TOKEN)
     Observable<ServerStatus> registerToken(@Body Token token);
