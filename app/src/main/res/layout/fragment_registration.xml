@@ -1,98 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".registrationOrLogin.activity.RegistrationOrLoginActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
         android:orientation="vertical"
-        android:padding="10dip">
+        tools:context=".registrationOrLogin.activity.RegistrationOrLoginActivity">
+
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textSize="@dimen/_25sdp"
+            android:textAlignment="center"
+            android:text="Sign Up"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
 
         <EditText
-            android:textSize="18.0sp"
-            android:gravity="center"
             android:id="@+id/editTextName"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30.0sp"
-            android:layout_marginRight="30.0sp"
-            android:layout_marginBottom="10.0sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:inputType="textEmailAddress"
+            android:textAlignment="center"
             android:hint="Name"
-            android:inputType="text" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
 
-        <!--Email Lable-->
         <EditText
-            android:textSize="18.0sp"
-            android:gravity="center"
             android:id="@+id/editTextEmail"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30.0sp"
-            android:layout_marginRight="30.0sp"
-            android:layout_marginBottom="10.0sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:inputType="textEmailAddress"
+            android:textAlignment="center"
             android:hint="Email"
-            android:inputType="textEmailAddress" />
-        <!--  Password Label -->
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
 
         <EditText
-            android:textSize="18.0sp"
-            android:gravity="center"
             android:id="@+id/editTextPassword"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30.0sp"
-            android:layout_marginRight="30.0sp"
-            android:layout_marginBottom="10.0sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:inputType="text"
+            android:textAlignment="center"
             android:hint="Password"
-            android:inputType="textPassword" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
 
         <EditText
-            android:textSize="18.0sp"
-            android:gravity="center"
             android:id="@+id/conformPassword"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30.0sp"
-            android:layout_marginRight="30.0sp"
-            android:layout_marginBottom="10.0sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:inputType="text"
+            android:textAlignment="center"
             android:hint="Confirm Password"
-            android:inputType="textPassword" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
 
-        <!-- Login button -->
         <Button
-            android:textSize="18.0sp"
-            android:textColor="@color/loginTextColor"
             android:id="@+id/buttonRegisterUser"
-            android:background="@drawable/round_login_button"
+            android:background="@drawable/round_corner_button"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textAlignment="center"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30.0sp"
-            android:layout_marginTop="10.0sp"
-            android:layout_marginRight="30.0sp"
-            android:text="Registration"
-            android:textAllCaps="false" />
+            android:textColor="#ffffff"
+            android:textSize="@dimen/_20sdp"
+            android:textAllCaps="false"
+            android:text="Sign Up"/>
 
-        <Button
-            android:textSize="18.0sp"
-            android:textColor="@color/loginTextColor"
-            android:id="@+id/loginButton"
-            android:background="@drawable/round_login_button"
+        <TextView
+            android:textSize="@dimen/_16sdp"
+            android:id="@+id/textViewLogin"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textColor="@color/colorPrimary"
+            android:textAlignment="center"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30.0sp"
-            android:layout_marginTop="10.0sp"
-            android:layout_marginRight="30.0sp"
-            android:text="Log In"
-            android:textAllCaps="false" />
+            android:text="Already a user? Login"/>
+
     </LinearLayout>
-</LinearLayout>
+
+</ScrollView>
 

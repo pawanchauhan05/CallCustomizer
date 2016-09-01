@@ -152,4 +152,16 @@ public class RegistrationFragment extends Fragment {
 
     }
 
+    /**
+     * to load login fragment
+     */
+    @Click(R.id.textViewLogin)
+    void loadLoginFragment() {
+        getActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.registrationOrLoginContainer, new LoginFragment_())
+                .commit();
+    }
+
 }
