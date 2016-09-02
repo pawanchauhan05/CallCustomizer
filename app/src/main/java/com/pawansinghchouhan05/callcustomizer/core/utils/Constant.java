@@ -37,6 +37,7 @@ public class Constant {
     public static final String SERVER_URL = "http://ourlab.tk/index.php/";
     public static final String LOG_IN = "index/login-user-mobile";
     public static final String REGISTER_USER = "index/register-user-mobile";
+    public static final String FACEBOOK_REGISTER_USER = "index/facebook-register-user-mobile";
     public static final String REGISTER_TOKEN = "index/register-token-mobile";
     public static final String UPDATE_TOKEN = "index/update-token-mobile";
     public static final String ADD_CUSTOM_NUMBER = "index/add-custom-number-mobile";

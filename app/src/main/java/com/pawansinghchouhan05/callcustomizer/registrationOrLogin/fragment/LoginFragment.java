@@ -55,6 +55,7 @@ import com.pawansinghchouhan05.callcustomizer.home.models.Token;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.ServerStatus;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoggedIn;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserLoginForm;
+import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.models.UserRegistrationForm;
 import com.pawansinghchouhan05.callcustomizer.registrationOrLogin.services.UserLoginService;
 //import com.pawansinghchouhan05.callcustomizer.home.activity.HomeActivity_;
 
@@ -158,17 +159,11 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
-                                Bundle bFacebookData = getFacebookData(object);
-                                UserLoggedIn userLoggedIn = new UserLoggedIn(bFacebookData.getString("first_name"), bFacebookData.getString("email"));
+                                Bundle facebookBundle = getFacebookData(object);
+                                UserLoggedIn userLoggedIn = new UserLoggedIn(facebookBundle.getString("first_name"), facebookBundle.getString("email"));
                                 initSharedPref(userLoggedIn, Constant.LOGIN_TYPE_FACEBOOK);
-                                /*if(userLoggedIn.getNumberStatus() == 1) {
-                                    callCustomizerApplication.getCustomNumber();
-                                }*/
-                                Intent intent = new Intent(getContext(), HomeActivity.class);
-                                startActivity(intent);
-                                registerTokenToServer(new Token(userLoggedIn.getEmail(), FirebaseInstanceId.getInstance().getToken()));
-                                //sendToCouchbaseDatabase();
-                                getActivity().finish();
+                                register(facebookBundle.getString("first_name"), facebookBundle.getString("email"), "12345");
+
                             }
                         });
 
@@ -404,7 +399,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
                 @Override
                 public void onNext(ServerStatus status) {
-
+                    Log.e("Next",status.getStatus());
                 }
 
             });
@@ -436,10 +431,54 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
     private void initSharedPref(UserLoggedIn userLoggedIn, String type) {
         Utils.savePreferences(getContext(), Constant.LOGGED_IN_USER, new Gson().toJson(userLoggedIn));
-        Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_AUTH);
-        Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, type);
+        Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, type);
+        Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);
         Utils.savePreferences(getContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "");
         Utils.savePreferences(getContext(), Constant.COMPLETE_SILENT_STATUS, Constant.COMPLETE_SILENT_STATUS);
+    }
+
+    private void register(String name, String email, String password) {
+
+        Observable<ServerStatus> registerUser = userLoginService.registerFacebookUser(new UserRegistrationForm(name, email, password, Constant.LOGIN_TYPE_FACEBOOK));
+        try {
+            registerUser
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<ServerStatus>() {
+
+                        @Override
+                        public void onCompleted() {
+                            Log.e("Complete","C");
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (e != null) {
+                                ServerStatus serverStatus = null;
+                                try {
+                                    if (((HttpException) e).code() == 401) {
+                                        moveForward();
+                                    }
+                                } catch (Exception e1) {
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onNext(ServerStatus serverStatus) {
+                            moveForward();
+                        }
+
+                        public void moveForward() {
+                            Intent intent = new Intent(getContext(), HomeActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                            registerTokenToServer(new Token(email, FirebaseInstanceId.getInstance().getToken()));
+                        }
+                    });
+        } catch (Exception e) {
+        }
+
     }
 
 }

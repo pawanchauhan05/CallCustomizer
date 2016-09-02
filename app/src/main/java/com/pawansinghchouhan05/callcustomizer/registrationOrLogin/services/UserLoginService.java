@@ -22,6 +22,9 @@ public interface UserLoginService {
     @POST(Constant.REGISTER_USER)
     Observable<ServerStatus> registerUser(@Body UserRegistrationForm registrationForm);
 
+    @POST(Constant.FACEBOOK_REGISTER_USER)
+    Observable<ServerStatus> registerFacebookUser(@Body UserRegistrationForm registrationForm);
+
     @POST(Constant.REGISTER_TOKEN)
     Observable<ServerStatus> registerToken(@Body Token token);
 
