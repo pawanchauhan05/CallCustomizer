@@ -79,6 +79,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         userName = (TextView) ((NavigationView) drawer.findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.textViewName);
         userEmail = (TextView) ((NavigationView) drawer.findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.textViewEmail);
         userEmail.setText(new Gson().fromJson(Utils.readPreferences(getApplicationContext(), Constant.LOGGED_IN_USER, ""), UserLoggedIn.class).getEmail() );
+        userName.setText(new Gson().fromJson(Utils.readPreferences(getApplicationContext(), Constant.LOGGED_IN_USER, ""), UserLoggedIn.class).getName() );
     }
 
     @Override

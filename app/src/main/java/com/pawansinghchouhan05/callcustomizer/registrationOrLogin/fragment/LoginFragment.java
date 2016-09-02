@@ -3,6 +3,7 @@ package com.pawansinghchouhan05.callcustomizer.registrationOrLogin.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +19,8 @@ import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
@@ -60,7 +63,11 @@ import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -140,16 +147,36 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
     @Click(R.id.fbLogin)
     void onFacebookLogin() {
         List<String> permissionNeeds = Arrays.asList("email");
-
-        LoginManager.getInstance().logInWithReadPermissions(
-                this,
-                permissionNeeds);
+        LoginManager.getInstance().logInWithReadPermissions(this, permissionNeeds);
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
-                    public void onSuccess(LoginResult loginResults) {
+                    public void onSuccess(LoginResult loginResult) {
                         Log.e("sucess","success");
                         Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_FACEBOOK);
+                        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Bundle bFacebookData = getFacebookData(object);
+                                UserLoggedIn userLoggedIn = new UserLoggedIn(bFacebookData.getString("first_name"), bFacebookData.getString("email"));
+                                initSharedPref(userLoggedIn, Constant.LOGIN_TYPE_FACEBOOK);
+                                /*if(userLoggedIn.getNumberStatus() == 1) {
+                                    callCustomizerApplication.getCustomNumber();
+                                }*/
+                                Intent intent = new Intent(getContext(), HomeActivity.class);
+                                startActivity(intent);
+                                registerTokenToServer(new Token(userLoggedIn.getEmail(), FirebaseInstanceId.getInstance().getToken()));
+                                //sendToCouchbaseDatabase();
+                                getActivity().finish();
+                            }
+                        });
+
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id, first_name, last_name, email,gender, birthday, location"); // Parámetros que pedimos a facebook
+                        request.setParameters(parameters);
+                        request.executeAsync();
+
                     }
 
                     @Override
@@ -157,13 +184,51 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                         Log.e("sucess","cancel");
                     }
 
-
                     @Override
                     public void onError(FacebookException e) {
-                        Log.e("sucess","error");
+                        Log.e("sucess",e.getMessage());
                     }
                 });
 
+    }
+
+
+
+    private Bundle getFacebookData(JSONObject object) {
+        Bundle bundle = new Bundle();
+        try {
+
+            String id = object.getString("id");
+
+            try {
+                URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=150");
+                Log.i("profile_pic", profile_pic + "");
+                bundle.putString("profile_pic", profile_pic.toString());
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+            bundle.putString("idFacebook", id);
+            if (object.has("first_name"))
+                bundle.putString("first_name", object.getString("first_name"));
+            if (object.has("last_name"))
+                bundle.putString("last_name", object.getString("last_name"));
+            if (object.has("email"))
+                bundle.putString("email", object.getString("email"));
+            if (object.has("gender"))
+                bundle.putString("gender", object.getString("gender"));
+            if (object.has("birthday"))
+                bundle.putString("birthday", object.getString("birthday"));
+            if (object.has("location"))
+                bundle.putString("location", object.getJSONObject("location").getString("name"));
+
+            return bundle;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return bundle;
     }
 
     private void handleFirebaseAuthResult(AuthResult authResult) {
@@ -226,10 +291,13 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
     @Click(R.id.buttonRegisterUser)
     void loadRegistrationFragment() {
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.registrationOrLoginContainer, new RegistrationFragment_());
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        getActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.registrationOrLoginContainer, new RegistrationFragment_())
+                .commit();
+
+
     }
 
     @Click(R.id.textViewForgotPassword)
@@ -299,7 +367,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
                 @Override
                 public void onNext(UserLoggedIn userLoggedIn) {
-                    initSharedPref(userLoggedIn);
+                    initSharedPref(userLoggedIn, Constant.LOGIN_STATUS_VALUE);
                     if(userLoggedIn.getNumberStatus() == 1) {
                         callCustomizerApplication.getCustomNumber();
                     }
@@ -366,10 +434,10 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
     }
 
-    private void initSharedPref(UserLoggedIn userLoggedIn) {
+    private void initSharedPref(UserLoggedIn userLoggedIn, String type) {
         Utils.savePreferences(getContext(), Constant.LOGGED_IN_USER, new Gson().toJson(userLoggedIn));
         Utils.savePreferences(getContext(), Constant.LOGIN_TYPE, Constant.LOGIN_TYPE_AUTH);
-        Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, Constant.LOGIN_STATUS_VALUE);
+        Utils.savePreferences(getContext(), Constant.LOGIN_STATUS, type);
         Utils.savePreferences(getContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "");
         Utils.savePreferences(getContext(), Constant.COMPLETE_SILENT_STATUS, Constant.COMPLETE_SILENT_STATUS);
     }
