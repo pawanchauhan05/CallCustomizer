@@ -33,7 +33,7 @@ public class Constant {
 
 
     // API's
-    public static final String BASE_URL = "http://192.168.1.5/CallCustomizer_web/index.php/";
+    public static final String BASE_URL = "http://ourlab.tk/index.php/";
     public static final String SERVER_URL = "http://ourlab.tk/index.php/";
     public static final String LOG_IN = "index/login-user-mobile";
     public static final String REGISTER_USER = "index/register-user-mobile";
