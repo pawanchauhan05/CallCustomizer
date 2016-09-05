@@ -3,19 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginLeft="@dimen/_10sdp"
+    android:layout_marginRight="@dimen/_10sdp"
     tools:context="com.pawansinghchouhan05.callcustomizer.home.fragment.AddNumberFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Number" />
-
     <Button
+        android:background="@drawable/round_corner_button"
+        android:textAllCaps="false"
         android:id="@+id/addNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/select_via_contacts"
+        android:textColor="#ffffff"
         />
 
     <EditText
@@ -31,6 +30,8 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:background="@drawable/round_corner_button"
+        android:textAllCaps="false"
         android:id="@+id/buttonAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
