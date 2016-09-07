@@ -16,7 +16,7 @@ public class IntroScreenActivity extends AppIntro {
     @Override
     public void init(@Nullable Bundle savedInstanceState) {
         addSlide(SlideContainerFragment.newInstance(R.layout.fragment_first));
-        addSlide(SlideContainerFragment.newInstance(R.layout.fragment_first));
+        addSlide(SlideContainerFragment.newInstance(R.layout.fragment_second));
     }
 
     @Override
