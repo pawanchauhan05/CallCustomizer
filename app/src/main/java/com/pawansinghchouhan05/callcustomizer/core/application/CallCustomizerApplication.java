@@ -87,7 +87,7 @@ public class CallCustomizerApplication extends Application {
                 .build();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(Constant.BASE_URL)
+                .baseUrl(Constant.SERVER_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
