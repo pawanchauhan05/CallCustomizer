@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import io.fabric.sdk.android.Fabric;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -62,6 +64,7 @@ public class CallCustomizerApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         init();
+        Fabric.with(this, new Crashlytics());
         try {
             CouchBaseDB.getManagerInstance(getApplicationContext());
         } catch (IOException e) {
@@ -71,8 +74,12 @@ public class CallCustomizerApplication extends Application {
         if(!Utils.readPreferences(getApplicationContext(), Constant.LOGIN_STATUS, "").equals("") && !Utils.readPreferences(getApplicationContext(), Constant.CUSTOM_NUMBER_DOC_EXIST, "").equals(""))
             numbers = getCustomNumberFromDB();
 
-
     }
+
+    public void forceCrash() {
+        throw new RuntimeException("This is a crash");
+    }
+
 
     /**
      * to initialize retrofit and other objects
