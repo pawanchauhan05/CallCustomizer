@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<<<<<<< HEAD
 <android.support.v7.widget.CardView android:layout_height="wrap_content"
     android:layout_width="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -45,5 +46,67 @@
             android:layout_height="30sp" />
 
     </LinearLayout>
+=======
+<android.support.v7.widget.CardView
+    android:layout_height="50dp"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.60">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="0.20"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="pawan"
+                android:layout_weight="0.4"
+                android:id="@+id/textViewName"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_weight="0.20"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:text="9772217799"
+            android:layout_weight="0.4"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:id="@+id/textViewMobileNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageViewEdit"
+        android:layout_weight="0.1"
+        android:src="@drawable/edit"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_width="30sp"
+        android:layout_height="30sp" />
+
+    <ImageView
+        android:id="@+id/imageViewDelete"
+        android:layout_weight="0.1"
+        android:src="@drawable/delete"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_width="30sp"
+        android:layout_height="28sp" />
+</LinearLayout>
+>>>>>>> 1b841f626bd7f9e7e2cec77294458bfc154e86c5
 
 </android.support.v7.widget.CardView>

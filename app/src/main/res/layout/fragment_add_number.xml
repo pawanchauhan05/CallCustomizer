@@ -74,10 +74,10 @@
         android:background="@drawable/round_corner_button"
         android:textAllCaps="false"
         android:id="@+id/buttonAdd"
+        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_number"
-        android:textColor="@color/white"
         />
 
 </LinearLayout>
